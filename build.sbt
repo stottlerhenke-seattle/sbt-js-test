@@ -18,8 +18,8 @@ publishArtifact in (Compile, packageDoc) := false
 
 sbtVersion in Global := {
   scalaBinaryVersion.value match {
-    case "2.10" => "0.13.5"
-    case "2.9.2" => "0.12.4"
+    case "2.10" => "0.13.9"
+//    case "2.9.2" => "0.12.4"
   }
 }
 
