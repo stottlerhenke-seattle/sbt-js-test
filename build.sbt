@@ -9,7 +9,8 @@ homepage := Some(url("https://github.com/joescii/sbt-js-test"))
 version := "0.1.0-SNAPSHOT"
 
 libraryDependencies ++= Seq(
-  "net.sourceforge.htmlunit" % "htmlunit"  % "2.19" % "compile"
+  "net.sourceforge.htmlunit"  %  "htmlunit"  % "2.19"  % "compile",
+  "org.scalatest"             %% "scalatest" % "2.2.6" % "test"
 )
 
 // don't bother publishing javadoc
