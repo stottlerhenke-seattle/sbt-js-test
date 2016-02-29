@@ -2,6 +2,10 @@ package com.joescii
 
 import java.io.{InputStreamReader, BufferedReader, File}
 
+import org.scalatest._
+import org.scalatest.concurrent.ScalaFutures
+import org.scalatest.time.{Millis, Seconds, Span}
+
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
@@ -27,7 +31,7 @@ package object sbtjs {
     builder.directory(dir)
     builder.redirectErrorStream(true)
 
-    println(s"Running ${cmd.mkString(" ")}...")
+    println(s"Running ${cmd.mkString(" ")} in $dir...")
 
     val process = builder.start()
     val stream = process.getInputStream
@@ -35,10 +39,16 @@ package object sbtjs {
     lazy val status = process.waitFor()
     lazy val output = Iterator.continually(buffer.readLine())
       .takeWhile(_ != null)
-      .dropWhile(!_.startsWith("[info] Set current project to"))
-      .drop(1)
+      .dropWhile(!_.startsWith("[info] Set current project to")) // Drop all of the usual junk
+      .drop(1) // then drop the last line of usual junk
       .toList
 
     (status, output)
+  }
+
+  trait SbtJsTestSpec extends WordSpec with ShouldMatchers with ScalaFutures {
+    implicit val defaultPatience = PatienceConfig(timeout = Span(60, Seconds), interval = Span(500, Millis))
+
+    var result:Result = Future.failed(new Exception)
   }
 }
