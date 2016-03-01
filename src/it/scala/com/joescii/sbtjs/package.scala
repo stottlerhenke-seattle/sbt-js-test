@@ -24,31 +24,33 @@ package object sbtjs {
     def /(child:String):String = s + separator + child
   }
 
-  def runSbt(dir:File, tasks:String*):Result = Future {
-    val sbtBin = System.getenv("SBT_HOME") / "sbt" + (if(windows) ".bat" else "")
-    val cmd = sbtBin :: tasks.toList
-    val builder = new ProcessBuilder(cmd:_*)
-    builder.directory(dir)
-    builder.redirectErrorStream(true)
-
-    println(s"Running ${cmd.mkString(" ")} in $dir...")
-
-    val process = builder.start()
-    val stream = process.getInputStream
-    val buffer = new BufferedReader(new InputStreamReader(stream))
-    lazy val status = process.waitFor()
-    lazy val output = Iterator.continually(buffer.readLine())
-      .takeWhile(_ != null)
-      .dropWhile(!_.startsWith("[info] Set current project to")) // Drop all of the usual junk
-      .drop(1) // then drop the last line of usual junk
-      .toList
-
-    (status, output)
-  }
-
-  trait SbtJsTestSpec extends WordSpec with ShouldMatchers with ScalaFutures {
-    implicit val defaultPatience = PatienceConfig(timeout = Span(60, Seconds), interval = Span(500, Millis))
+  class SbtJsTestSpec(project:String) extends WordSpec with ShouldMatchers with ScalaFutures {
+    implicit val defaultPatience = PatienceConfig(timeout = Span(20, Seconds), interval = Span(500, Millis))
 
     var result:Result = Future.failed(new Exception)
+
+    def runSbt(tasks:String*):Result = Future {
+      val dir = cd / "test-projects" / project
+      val sbtBin = System.getenv("SBT_HOME") / "sbt" + (if(windows) ".bat" else "")
+      val cmd = sbtBin :: tasks.toList
+      val builder = new ProcessBuilder(cmd:_*)
+      builder.directory(dir)
+      builder.redirectErrorStream(true)
+
+      println(s"Running ${cmd.mkString(" ")} in $dir...")
+
+      val process = builder.start()
+      val stream = process.getInputStream
+      val buffer = new BufferedReader(new InputStreamReader(stream))
+      lazy val status = process.waitFor()
+      lazy val output = Iterator.continually(buffer.readLine())
+        .takeWhile(_ != null)
+        .dropWhile(!_.startsWith("[info] Set current project to")) // Drop all of the usual junk
+        .drop(1) // then drop the last line of usual junk
+        .toList
+
+      (status, output)
+    }
+
   }
 }
