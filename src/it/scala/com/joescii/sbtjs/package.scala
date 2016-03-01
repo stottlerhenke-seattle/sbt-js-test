@@ -1,6 +1,6 @@
 package com.joescii
 
-import java.io.{InputStreamReader, BufferedReader, File}
+import java.io._
 
 import org.scalatest._
 import org.scalatest.concurrent.ScalaFutures
@@ -24,13 +24,21 @@ package object sbtjs {
     def /(child:String):String = s + separator + child
   }
 
+  def echo(str:String) = new {
+    def > (f:File):Unit = {
+      val out = new PrintStream(new FileOutputStream(f))
+      out.print(str)
+    }
+  }
+
   class SbtJsTestSpec(project:String) extends WordSpec with ShouldMatchers with ScalaFutures {
     implicit val defaultPatience = PatienceConfig(timeout = Span(20, Seconds), interval = Span(500, Millis))
 
     var result:Result = Future.failed(new Exception)
 
+    val dir = cd / "test-projects" / project
+
     def runSbt(tasks:String*):Result = Future {
-      val dir = cd / "test-projects" / project
       val sbtBin = System.getenv("SBT_HOME") / "sbt" + (if(windows) ".bat" else "")
       val cmd = sbtBin :: tasks.toList
       val builder = new ProcessBuilder(cmd:_*)
@@ -52,5 +60,6 @@ package object sbtjs {
       (status, output)
     }
 
+    echo("""addSbtPlugin("com.joescii" % "sbt-js-test" % "0.1.0-SNAPSHOT")""") > dir / "project" / "sbt-js-test.sbt"
   }
 }
