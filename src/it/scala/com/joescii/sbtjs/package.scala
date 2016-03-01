@@ -33,7 +33,7 @@ package object sbtjs {
   }
 
   class SbtJsTestSpec(project:String) extends WordSpec with ShouldMatchers with ScalaFutures {
-    import build.BuildInfo.version
+    import build.BuildInfo._
 
     implicit val defaultPatience = PatienceConfig(timeout = Span(20, Seconds), interval = Span(500, Millis))
 
@@ -56,6 +56,7 @@ package object sbtjs {
       lazy val status = process.waitFor()
       lazy val output = Iterator.continually(buffer.readLine())
         .takeWhile(_ != null)
+        .map { line => if(itDebug) println(line); line }
         .dropWhile(!_.startsWith("[info] Set current project to")) // Drop all of the usual junk
         .drop(1) // then drop the last line of usual junk
         .toList
