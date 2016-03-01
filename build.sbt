@@ -41,4 +41,9 @@ licenses += ("Apache-2.0", url("http://www.apache.org/licenses/LICENSE-2.0.html"
 
 lazy val root = (project in file(".")).
   configs(IntegrationTest).
-  settings(Defaults.itSettings: _*)
+  settings(Defaults.itSettings: _*).
+  enablePlugins(BuildInfoPlugin)`
+
+buildInfoKeys := Seq[BuildInfoKey](version)
+
+buildInfoPackage := "com.joescii.sbtjs.build"

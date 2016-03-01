@@ -32,6 +32,8 @@ package object sbtjs {
   }
 
   class SbtJsTestSpec(project:String) extends WordSpec with ShouldMatchers with ScalaFutures {
+    import build.BuildInfo.version
+
     implicit val defaultPatience = PatienceConfig(timeout = Span(20, Seconds), interval = Span(500, Millis))
 
     var result:Result = Future.failed(new Exception)
@@ -60,6 +62,6 @@ package object sbtjs {
       (status, output)
     }
 
-    echo("""addSbtPlugin("com.joescii" % "sbt-js-test" % "0.1.0-SNAPSHOT")""") > dir / "project" / "sbt-js-test.sbt"
+    echo(s"""addSbtPlugin("com.joescii" % "sbt-js-test" % "$version")""") > dir / "project" / "sbt-js-test.sbt"
   }
 }
