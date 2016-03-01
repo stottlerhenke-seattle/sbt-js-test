@@ -10,7 +10,7 @@ version := "0.1.0-SNAPSHOT"
 
 libraryDependencies ++= Seq(
   "net.sourceforge.htmlunit"  %  "htmlunit"  % "2.19"  % "compile",
-  "org.scalatest"             %% "scalatest" % "2.2.6" % "test"
+  "org.scalatest"             %% "scalatest" % "2.2.6" % "test,it"
 )
 
 // don't bother publishing javadoc
@@ -38,3 +38,7 @@ scalacOptions ++= Seq("-unchecked", "-deprecation")
 licenses += ("Apache-2.0", url("http://www.apache.org/licenses/LICENSE-2.0.html"))
 
 //bintrayOrganization in bintray := None
+
+lazy val root = (project in file(".")).
+  configs(IntegrationTest).
+  settings(Defaults.itSettings: _*)
