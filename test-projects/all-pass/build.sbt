@@ -1,3 +1,5 @@
+
+
 name := "sbt-js-test-demo"
 
 organization := "com.joescii"
@@ -12,3 +14,7 @@ resolvers ++= Seq(
 )
 
 seq(sbtJsTestSettings : _*)
+
+jsResources <<= (sourceDirectory in Compile) { main =>
+  (main / "js") ** "*.js"
+}

@@ -1,12 +1,13 @@
 package com.joescii.sbtjs
 
-import sbt.{Project, Plugin}
+import sbt.{PathFinder, Project, Plugin}
 
-object SbtJsTestPlugin extends Plugin {
-  import SbtJsTestKeys._
+object SbtJsTestPlugin extends Plugin with SbtJsTestKeys {
   import SbtJsTestTasks._
 
   val sbtJsTestSettings:Seq[Project.Setting[_]] = List(
-    jsTest <<= jsTestTask
+    jsTest <<= jsTestTask,
+    lsJs <<= lsJsTask,
+    jsResources := PathFinder.empty
   )
 }
