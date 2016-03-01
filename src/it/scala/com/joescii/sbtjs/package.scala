@@ -28,6 +28,7 @@ package object sbtjs {
     def > (f:File):Unit = {
       val out = new PrintStream(new FileOutputStream(f))
       out.print(str)
+      out.close()
     }
   }
 
