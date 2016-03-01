@@ -9,7 +9,7 @@ homepage := Some(url("https://github.com/joescii/sbt-js-test"))
 version := "0.1.0-SNAPSHOT"
 
 libraryDependencies ++= Seq(
-  "net.sourceforge.htmlunit"  %  "htmlunit"  % "2.19"  % "compile",
+  "net.sourceforge.htmlunit"  %  "htmlunit"  % "2.19"   % "compile",
   "org.scalatest"             %% "scalatest" % "2.2.6" % "test,it"
 )
 
@@ -42,7 +42,7 @@ licenses += ("Apache-2.0", url("http://www.apache.org/licenses/LICENSE-2.0.html"
 lazy val root = (project in file(".")).
   configs(IntegrationTest).
   settings(Defaults.itSettings: _*).
-  enablePlugins(BuildInfoPlugin)`
+  enablePlugins(BuildInfoPlugin)
 
 buildInfoKeys := Seq[BuildInfoKey](version)
 
