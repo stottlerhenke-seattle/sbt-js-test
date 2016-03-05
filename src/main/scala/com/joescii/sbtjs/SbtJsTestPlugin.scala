@@ -8,10 +8,11 @@ object SbtJsTestPlugin extends Plugin with SbtJsTestKeys {
   import SbtJsTestTasks._
 
   val sbtJsTestSettings:Seq[Def.Setting[_]] = List(
-    jsTest <<= jsTestTask,
     lsJs <<= lsJsTask,
     consoleHtml <<= (target in sbt.Test) (_ / "sbt-js-test" / "console.html"),
     writeConsoleHtml <<= writeConsoleHtmlTask,
+    jsTest <<= jsTestTask,
+    jsTest <<= jsTest dependsOn writeConsoleHtml,
     jsResources := Seq.empty
   )
 }
