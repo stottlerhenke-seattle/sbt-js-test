@@ -3,7 +3,7 @@ sbt plugin for running JavaScript tests on the JVM
 
 ## TODO
 1.  ~~Define key for locating js artifacts~~
-2.  Render `blank.html` containing the scripts in `target`
+2.  ~~Render `console.html` containing the scripts in `target`~~
 3.  Run page in `HtmlUnit`
 4.  Create jasmine integration
 5.  Better stack traces when encountering JS errors
