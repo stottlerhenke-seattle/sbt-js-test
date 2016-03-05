@@ -16,4 +16,4 @@ project/plugins/project/
 .scala_dependencies
 .worksheet
 .idea/
-test-projects/*/project/sbt-js-test.sbt
+test-projects/*/project/lib

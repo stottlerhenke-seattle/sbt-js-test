@@ -47,8 +47,8 @@ lazy val root = (project in file(".")).
   settings(Defaults.itSettings: _*).
   enablePlugins(BuildInfoPlugin)
 
-buildInfoKeys := Seq[BuildInfoKey](version, itDebug)
+buildInfoKeys := Seq[BuildInfoKey](version, itDebug, scalaVersion, scalaBinaryVersion, sbtVersion)
 
 buildInfoPackage := "com.joescii.sbtjs.build"
 
-(test in IntegrationTest) <<= (test in IntegrationTest).dependsOn(publishLocal)
+(test in IntegrationTest) <<= (test in IntegrationTest).dependsOn(Keys.`package` in Compile)

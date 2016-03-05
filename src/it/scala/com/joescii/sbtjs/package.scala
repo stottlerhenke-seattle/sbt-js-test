@@ -32,6 +32,8 @@ package object sbtjs {
     }
   }
 
+  def copy(from:File, to:File):Unit = new FileOutputStream(to).getChannel().transferFrom( new FileInputStream(from).getChannel, 0, Long.MaxValue )
+
   class SbtJsTestSpec(project:String) extends WordSpec with ShouldMatchers with ScalaFutures {
     import build.BuildInfo._
 
@@ -64,6 +66,11 @@ package object sbtjs {
       (status, output)
     }
 
-    echo(s"""addSbtPlugin("com.joescii" % "sbt-js-test" % "$version")""") > dir / "project" / "sbt-js-test.sbt"
+//    echo(s"""addSbtPlugin("com.joescii" % "sbt-js-test" % "$version")""") > dir / "project" / "sbt-js-test.sbt"
+    val Regex = """(.*)\Q.\E[^.]*$""".r
+    val Regex(sbtBinaryVersion) = sbtVersion
+    val lib = dir / "project" / "lib"
+    lib.mkdirs()
+    copy(cd / "target" / s"scala-$scalaBinaryVersion" / s"sbt-$sbtBinaryVersion" / s"sbt-js-test-$version.jar", lib / "sbt-js-test.jar")
   }
 }
