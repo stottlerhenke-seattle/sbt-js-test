@@ -1,7 +1,5 @@
 package com.joescii.sbtjs
 
-import implicits._
-
 import sbt.{IO, File}
 import sbt.Keys._
 
@@ -21,8 +19,6 @@ object SbtJsTestTasks extends SbtJsTestKeys {
     lsR(rsrcs).foreach(f => s.log.info(f.getCanonicalPath))
   }
 
-  private [this] def consoleHtml(target:File) = target / "sbt-js-test" / "console.html"
-
   private [this] def htmlFor(js:List[File]):String = {
     val doctype = "<!DOCTYPE html>"
     val scripts = js map ( f => <script type="application/javascript" src={f.toURI.toASCIIString}></script> )
@@ -38,10 +34,9 @@ object SbtJsTestTasks extends SbtJsTestKeys {
     doctype + "\n" + html.toString
   }
 
-  val writeConsoleHtmlTask = (streams, jsResources, target).map { (s, rsrcs, target) =>
-    val f = consoleHtml(target)
-    s.log.info(s"Generating ${f.getCanonicalPath}...")
-    IO.write(f, htmlFor(lsR(rsrcs)))
-    f
+  val writeConsoleHtmlTask = (streams, jsResources, consoleHtml).map { (s, rsrcs, html) =>
+    s.log.info(s"Generating ${html.getCanonicalPath}...")
+    IO.write(html, htmlFor(lsR(rsrcs)))
+    html
   }
 }

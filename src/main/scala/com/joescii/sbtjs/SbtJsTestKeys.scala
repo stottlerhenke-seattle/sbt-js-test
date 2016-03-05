@@ -6,5 +6,6 @@ trait SbtJsTestKeys {
   val jsTest = TaskKey[Unit]("testJs", "Run JavaScript tests")
   val jsResources = SettingKey[Seq[File]]("jsResources", "JavaScript directories and files needed for running tests")
   val lsJs = TaskKey[Unit]("lsJs", "Lists all js files configured for testing")
+  val consoleHtml = SettingKey[File]("consoleHtml", "Location for console.html to be run in HtmlUnit")
   val writeConsoleHtml = TaskKey[File]("writeConsoleHtml", "Writes an HTML file containing all of the JavaScript resources for tests")
 }
