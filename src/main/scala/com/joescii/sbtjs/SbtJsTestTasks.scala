@@ -1,5 +1,6 @@
 package com.joescii.sbtjs
 
+import sbt.File
 import sbt.Keys._
 
 object SbtJsTestTasks extends SbtJsTestKeys {
@@ -7,9 +8,14 @@ object SbtJsTestTasks extends SbtJsTestKeys {
     s.log.info("Running JavaScript tests...")
   }
 
-  val lsJsTask = (streams, jsResources).map { (s, rsrc) =>
-    rsrc.foreach { f =>
-      s.log.info(f.getCanonicalPath)
-    }
+  private [this] def lsR(f:File):List[File] =
+    if(!f.isDirectory) List(f)
+    else f.listFiles().toList.flatMap(lsR)
+
+  val lsJsTask = (streams, jsResources).map { (s, rsrcs) =>
+    for {
+      maybeDir <- rsrcs
+      leaf <- lsR(maybeDir)
+    } { s.log.info(leaf.getCanonicalPath) }
   }
 }
