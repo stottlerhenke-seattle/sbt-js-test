@@ -8,6 +8,6 @@ object SbtJsTestPlugin extends Plugin with SbtJsTestKeys {
   val sbtJsTestSettings:Seq[Project.Setting[_]] = List(
     jsTest <<= jsTestTask,
     lsJs <<= lsJsTask,
-    jsResources := PathFinder.empty
+    jsResources := Seq.empty
   )
 }

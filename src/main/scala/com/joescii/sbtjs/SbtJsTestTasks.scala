@@ -8,7 +8,7 @@ object SbtJsTestTasks extends SbtJsTestKeys {
   }
 
   val lsJsTask = (streams, jsResources).map { (s, rsrc) =>
-    rsrc.get.foreach { f =>
+    rsrc.foreach { f =>
       s.log.info(f.getCanonicalPath)
     }
   }
