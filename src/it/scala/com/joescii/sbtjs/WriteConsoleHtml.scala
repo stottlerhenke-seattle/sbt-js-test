@@ -1,9 +1,9 @@
 package com.joescii.sbtjs
 
-class WriteHtml extends SbtJsTestSpec("lsJs") {
+class WriteConsoleHtml extends SbtJsTestSpec("lsJs") {
   "The lsJs project" should {
     "successfully run 'lsJs'" in {
-      result = runSbt("writeHtml")
+      result = runSbt("writeConsoleHtml")
       result.futureValue._1 shouldEqual 0
     }
   }

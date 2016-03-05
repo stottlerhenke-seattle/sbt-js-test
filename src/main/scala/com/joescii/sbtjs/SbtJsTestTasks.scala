@@ -21,6 +21,8 @@ object SbtJsTestTasks extends SbtJsTestKeys {
     lsR(rsrcs).foreach(f => s.log.info(f.getCanonicalPath))
   }
 
+  private [this] def consoleHtml(target:File) = target / "sbt-js-test" / "console.html"
+
   private [this] def htmlFor(js:List[File]):String = {
     val doctype = "<!DOCTYPE html>"
     val scripts = js map ( f => <script type="application/javascript" src={f.toURI.toASCIIString}></script> )
@@ -36,8 +38,8 @@ object SbtJsTestTasks extends SbtJsTestKeys {
     doctype + "\n" + html.toString
   }
 
-  val writeHtmlTask = (streams, jsResources, target).map { (s, rsrcs, target) =>
-    val f = target / "sbt-js-test" / "console.html"
+  val writeConsoleHtmlTask = (streams, jsResources, target).map { (s, rsrcs, target) =>
+    val f = consoleHtml(target)
     s.log.info(s"Generating ${f.getCanonicalPath}...")
     IO.write(f, htmlFor(lsR(rsrcs)))
     f
