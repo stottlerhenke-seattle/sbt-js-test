@@ -41,6 +41,14 @@ package object sbtjs {
 
     val dir = cd / "test-projects" / project
 
+    def copyPluginJar():Unit = {
+      val Regex = """(.*)\Q.\E[^.]*$""".r
+      val Regex(sbtBinaryVersion) = sbtVersion
+      val lib = dir / "project" / "lib"
+      lib.mkdirs()
+      copy(cd / "target" / s"scala-$scalaBinaryVersion" / s"sbt-$sbtBinaryVersion" / s"sbt-js-test-$version.jar", lib / "sbt-js-test.jar")
+    }
+
     def runSbt(tasks:String*):Result = Future {
       val sbtScript = "sbt" + (if(windows) ".bat" else "")
       val sbtBin = Option(System.getenv("sbt_home")).map(_ / sbtScript).getOrElse(sbtScript)
@@ -65,10 +73,7 @@ package object sbtjs {
       (status, output)
     }
 
-    val Regex = """(.*)\Q.\E[^.]*$""".r
-    val Regex(sbtBinaryVersion) = sbtVersion
-    val lib = dir / "project" / "lib"
-    lib.mkdirs()
-    copy(cd / "target" / s"scala-$scalaBinaryVersion" / s"sbt-$sbtBinaryVersion" / s"sbt-js-test-$version.jar", lib / "sbt-js-test.jar")
+    copyPluginJar()
+    echo(s"""libraryDependencies += "net.sourceforge.htmlunit" % "htmlunit" % "$htmlunitVersion" % "runtime"""") > dir / "project" / "htmlunit.sbt"
   }
 }

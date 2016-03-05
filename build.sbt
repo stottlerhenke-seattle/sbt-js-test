@@ -8,9 +8,12 @@ homepage := Some(url("https://github.com/joescii/sbt-js-test"))
 
 version := "0.1.0-SNAPSHOT"
 
+val htmlunitVersion = settingKey[String]("Version of htmlunit")
+htmlunitVersion := "2.19"
+
 libraryDependencies ++= Seq(
-  "net.sourceforge.htmlunit"  %  "htmlunit"  % "2.19"   % "compile",
-  "org.scalatest"             %% "scalatest" % "2.2.6" % "test,it"
+  "net.sourceforge.htmlunit"  %  "htmlunit"  % htmlunitVersion.value  % "compile",
+  "org.scalatest"             %% "scalatest" % "2.2.6"                % "test,it"
 )
 
 // don't bother publishing javadoc
@@ -52,7 +55,7 @@ parallelExecution in IntegrationTest := false
 (test in IntegrationTest) <<= (test in IntegrationTest).dependsOn(Keys.`package` in Compile)
 (testOnly in IntegrationTest) <<= (testOnly in IntegrationTest).dependsOn(Keys.`package` in Compile)
 
-buildInfoKeys := Seq[BuildInfoKey](version, itDebug, scalaVersion, scalaBinaryVersion, sbtVersion)
+buildInfoKeys := Seq[BuildInfoKey](version, itDebug, scalaVersion, scalaBinaryVersion, sbtVersion, htmlunitVersion)
 
 buildInfoPackage := "com.joescii.sbtjs.build"
 

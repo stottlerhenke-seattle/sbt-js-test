@@ -17,3 +17,4 @@ project/plugins/project/
 .worksheet
 .idea/
 test-projects/*/project/lib
+test-projects/*/project/htmlunit.sbt
