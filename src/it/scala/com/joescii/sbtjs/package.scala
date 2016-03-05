@@ -66,7 +66,6 @@ package object sbtjs {
       (status, output)
     }
 
-//    echo(s"""addSbtPlugin("com.joescii" % "sbt-js-test" % "$version")""") > dir / "project" / "sbt-js-test.sbt"
     val Regex = """(.*)\Q.\E[^.]*$""".r
     val Regex(sbtBinaryVersion) = sbtVersion
     val lib = dir / "project" / "lib"
