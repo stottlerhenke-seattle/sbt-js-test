@@ -52,3 +52,4 @@ buildInfoKeys := Seq[BuildInfoKey](version, itDebug, scalaVersion, scalaBinaryVe
 buildInfoPackage := "com.joescii.sbtjs.build"
 
 (test in IntegrationTest) <<= (test in IntegrationTest).dependsOn(Keys.`package` in Compile)
+(testOnly in IntegrationTest) <<= (testOnly in IntegrationTest).dependsOn(Keys.`package` in Compile)
