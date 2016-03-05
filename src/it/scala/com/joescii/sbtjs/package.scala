@@ -10,15 +10,13 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 package object sbtjs {
+  import implicits._
+
   type Result = Future[(Int, List[String])]
 
   val separator = System.getProperty("file.separator")
   val windows = System.getProperty("os.name").matches("(?i).*win.*")
   val cd = new File(".")
-
-  implicit class EnhancedFile(val f:File) extends AnyVal {
-    def /(child:String):File = new File(f, child)
-  }
 
   implicit class EnhancedString(val s:String) extends AnyVal {
     def /(child:String):String = s + separator + child
@@ -44,6 +42,7 @@ package object sbtjs {
     val dir = cd / "test-projects" / project
 
     def runSbt(tasks:String*):Result = Future {
+      // TODO Try sbt on $path
       val sbtBin = System.getenv("SBT_HOME") / "sbt" + (if(windows) ".bat" else "")
       val cmd = sbtBin :: tasks.toList
       val builder = new ProcessBuilder(cmd:_*)
