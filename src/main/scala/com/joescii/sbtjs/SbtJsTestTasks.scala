@@ -1,13 +1,10 @@
 package com.joescii.sbtjs
 
+import com.gargoylesoftware.htmlunit.{BrowserVersion, WebClient}
 import sbt.{IO, File}
 import sbt.Keys._
 
 object SbtJsTestTasks extends SbtJsTestKeys {
-  val jsTestTask = (streams).map { s =>
-    s.log.info("Running JavaScript tests...")
-  }
-
   private [this] def lsR(fs:Seq[File]):List[File] =
     fs.flatMap(lsR).toList
 
@@ -38,5 +35,20 @@ object SbtJsTestTasks extends SbtJsTestKeys {
     s.log.info(s"Generating ${html.getCanonicalPath}...")
     IO.write(html, htmlFor(lsR(rsrcs)))
     html
+  }
+
+  private [this] def runJs(html:File):Unit = {
+    val client = new WebClient(BrowserVersion.CHROME)
+    val options = client.getOptions()
+    options.setHomePage(WebClient.URL_ABOUT_BLANK.toString())
+    options.setJavaScriptEnabled(true)
+
+    client.getPage(html.toURI.toURL)
+  }
+
+  val jsTestTask = (streams, consoleHtml).map { (s, html) =>
+    s.log.info("Running JavaScript tests...")
+
+    runJs(html)
   }
 }
