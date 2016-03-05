@@ -42,8 +42,8 @@ package object sbtjs {
     val dir = cd / "test-projects" / project
 
     def runSbt(tasks:String*):Result = Future {
-      // TODO Try sbt on $path
-      val sbtBin = System.getenv("SBT_HOME") / "sbt" + (if(windows) ".bat" else "")
+      val sbtScript = "sbt" + (if(windows) ".bat" else "")
+      val sbtBin = Option(System.getenv("sbt_home")).map(_ / sbtScript).getOrElse(sbtScript)
       val cmd = sbtBin :: tasks.toList
       val builder = new ProcessBuilder(cmd:_*)
       builder.directory(dir)
