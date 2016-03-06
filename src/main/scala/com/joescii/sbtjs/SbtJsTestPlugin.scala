@@ -15,9 +15,9 @@ object SbtJsTestPlugin extends Plugin with SbtJsTestKeys {
 
     jsTest <<= jsTestTask,
     jsTest <<= jsTest dependsOn writeConsoleHtml,
-    jsTest <<= jsTest dependsOn writeWebjars,
+    jsTest <<= jsTest dependsOn writeJsAssets,
     lsJs <<= lsJsTask,
     writeConsoleHtml <<= writeConsoleHtmlTask,
-    writeWebjars <<= writeWebjarsTask
+    writeJsAssets <<= writeJsAssetsTask
   )
 }
