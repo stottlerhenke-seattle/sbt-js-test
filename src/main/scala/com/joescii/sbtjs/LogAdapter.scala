@@ -4,14 +4,14 @@ import java.io.{ByteArrayOutputStream, PrintStream}
 
 import org.apache.commons.logging.Log
 
-object LogAdapterScala {
+object LogAdapter {
   var logger:sbt.Logger = null
-  System.setProperty("org.apache.commons.logging.Log", "com.joescii.sbtjs.LogAdapterScala")
+  System.setProperty("org.apache.commons.logging.Log", "com.joescii.sbtjs.LogAdapter")
 }
 
 // The Log must have a string constructor
-class LogAdapterScala(s:String) extends Log {
-  import LogAdapterScala. { logger => l }
+class LogAdapter(s:String) extends Log {
+  import LogAdapter. { logger => l }
 
   override def isTraceEnabled:Boolean = true
   override def isDebugEnabled:Boolean = true
@@ -36,7 +36,9 @@ class LogAdapterScala(s:String) extends Log {
   override def info(m:Object):Unit = l.info(m.toString)
   override def info(m:Object, t:Throwable):Unit = l.info(stacktrace(m, t))
 
-  override def warn(m:Object):Unit = l.warn(m.toString)
+  override def warn(m:Object):Unit =
+    if(m != "Obsolete content type encountered: 'text/javascript'.") // Ignoring this dumb message
+      l.warn(m.toString)
   override def warn(m:Object, t:Throwable):Unit = l.warn(stacktrace(m, t))
 
   override def error(m:Object):Unit = l.error(m.toString)
