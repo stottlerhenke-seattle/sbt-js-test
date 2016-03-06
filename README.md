@@ -8,7 +8,7 @@ sbt plugin for running JavaScript tests on the JVM
 4.  ~~Cleanup `HtmlUnit` logging.~~
 5.  ~~Create jasmine integration~~
 6.  ~~Read jasmine from webjar~~
-7.  Fail task if jasmine fails
+7.  ~~Fail task if jasmine fails~~
 8.  Better stack traces when encountering JS errors
 9.  Read any asset from webjar
 10. Define color print key
