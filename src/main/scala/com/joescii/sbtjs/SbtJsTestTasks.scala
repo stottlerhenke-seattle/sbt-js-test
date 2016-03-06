@@ -9,7 +9,7 @@ import implicits._
 import com.gargoylesoftware.htmlunit.{BrowserVersion, WebClient}
 import net.sourceforge.htmlunit.corejs.javascript. { ScriptableObject, Function => JsFunction }
 import org.webjars.WebJarAssetLocator
-import sbt.{IO, File}
+import sbt.{TestsFailedException, IO, File}
 import sbt.Keys._
 
 object SbtJsTestTasks extends SbtJsTestKeys {
@@ -79,7 +79,7 @@ object SbtJsTestTasks extends SbtJsTestKeys {
     html
   }
 
-  private [this] def runJs(html:File):Unit = {
+  private [this] def runJs(html:File):Boolean = {
     val client = new WebClient(BrowserVersion.CHROME)
     val options = client.getOptions()
     options.setHomePage(WebClient.URL_ABOUT_BLANK.toString())
@@ -89,21 +89,29 @@ object SbtJsTestTasks extends SbtJsTestKeys {
     val window = client.getCurrentWindow().getTopWindow
     val page:HtmlPage = window.getEnclosedPage().asInstanceOf[HtmlPage] // asInstanceOf because ... java...
 
-    val js = "jasmine.getEnv().execute();"
+    val js = """
+        |jasmine.getEnv().execute();
+        |return window.sbtJsTest.complete && window.sbtJsTest.allPassed;
+      """.stripMargin
     val toRun = "function() {\n"+js+"\n};"
     val result = page.executeJavaScript(toRun)
     val func:JsFunction = result.getJavaScriptResult().asInstanceOf[JsFunction]
 
-    page.executeJavaScriptFunctionIfPossible(
+    val exeResult = page.executeJavaScriptFunctionIfPossible(
       func,
       window.getScriptObject().asInstanceOf[ScriptableObject],
       Array.empty,
-      page.getDocumentElement())
+      page.getDocumentElement()
+    )
+
+    exeResult.getJavaScriptResult.toString == "true"
   }
 
   val jsTestTask = (streams, consoleHtml).map { (s, html) =>
     s.log.info("Running JavaScript tests...")
     LogAdapter.logger = s.log
-    runJs(html)
+    val success = runJs(html)
+
+    if(!success) throw new TestsFailedException()
   }
 }

@@ -22,9 +22,16 @@
 
   jasmineReq.console(jasmineReq, window.jasmine);
 
+  window.sbtJsTest = window.sbtJsTest || {};
+  window.sbtJsTest.complete = false;
+
   env.addReporter(getJasmineRequireObj().ConsoleReporter()({
     print: function(it){ console.log(it); },
-    showColors: true
+    showColors: true,
+    onComplete: function(allPassed) {
+      window.sbtJsTest.complete = true;
+      window.sbtJsTest.allPassed = allPassed;
+    }
   }));
 
   function extend(destination, source) {
