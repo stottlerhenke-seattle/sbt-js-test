@@ -8,10 +8,10 @@ lazy val commonSettings = Seq(
   )
 ) ++ seq(sbtJsTestSettings : _*)
 
-lazy val allPass = (project in file("all-pass")).
+lazy val allPass = (project in file("allPass")).
   settings(commonSettings: _*).
   settings(
-    name := "all-pass",
+    name := "allPass",
     jsResources <<= (sourceDirectory in Compile, sourceDirectory in Test) { (main, test) => Seq(
       main / "js",
       test / "js"
