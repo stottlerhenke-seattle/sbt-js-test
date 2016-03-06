@@ -51,10 +51,11 @@ package object sbtjs {
 
     def writeDependenciesSbt():Unit = {
       val contents =
-        s"""libraryDependencies ++= Seq(
-        |  "net.sourceforge.htmlunit"  % "htmlunit"        % "$htmlunitVersion"       % "runtime",
-        |  "org.webjars"               % "webjars-locator" % "$webjarLocatorVersion"  % "runtime",
-        |  "org.webjars.bower"         % "jasmine"         % "$jasmineVersion"        % "runtime"
+        s"""resolvers += "Local Maven Repository" at Path.userHome.asFile.toURI.toURL + ".m2/repository"
+        |libraryDependencies ++= Seq(
+        |  "net.sourceforge.htmlunit"  % "htmlunit"             % "$htmlunitVersion"       % "runtime",
+        |  "org.webjars"               % "webjars-locator-core" % "$webjarLocatorVersion"  % "runtime",
+        |  "org.webjars.bower"         % "jasmine"              % "$jasmineVersion"        % "runtime"
         |)""".stripMargin
 
       echo(contents) > dir / "project" / "htmlunit.sbt"

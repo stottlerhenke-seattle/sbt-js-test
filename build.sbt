@@ -12,16 +12,17 @@ val htmlunitVersion = settingKey[String]("Version of htmlunit")
 htmlunitVersion := "2.19"
 
 val webjarLocatorVersion = settingKey[String]("Version of webjar locator")
-webjarLocatorVersion := "0.30"
+webjarLocatorVersion := "0.31-SNAPSHOT"
+resolvers += "Local Maven Repository" at Path.userHome.asFile.toURI.toURL + ".m2/repository"
 
 val jasmineVersion = settingKey[String]("Version of jasmine")
 jasmineVersion := "2.4.1"
 
 libraryDependencies ++= Seq(
-  "net.sourceforge.htmlunit"  %  "htmlunit"         % htmlunitVersion.value       % "compile",
-  "org.webjars"               %  "webjars-locator"  % webjarLocatorVersion.value  % "compile",
-  "org.webjars.bower"         %  "jasmine"          % jasmineVersion.value        % "provided",
-  "org.scalatest"             %% "scalatest"        % "2.2.6"                     % "test,it"
+  "net.sourceforge.htmlunit"  %  "htmlunit"             % htmlunitVersion.value       % "compile",
+  "org.webjars"               %  "webjars-locator-core" % webjarLocatorVersion.value  % "compile",
+  "org.webjars.bower"         %  "jasmine"              % jasmineVersion.value        % "provided",
+  "org.scalatest"             %% "scalatest"            % "2.2.6"                     % "test,it"
 )
 
 // don't bother publishing javadoc
