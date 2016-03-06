@@ -18,6 +18,15 @@ lazy val allPass = (project in file("allPass")).
     )}
   )
   
+lazy val oneFail = (project in file("oneFail")).
+  settings(commonSettings: _*).
+  settings(
+    name := "oneFail",
+    jsResources <<= (sourceDirectory in Compile, sourceDirectory in Test) { (main, test) => Seq(
+      test / "js"
+    )}
+  )
+
 lazy val lsJs = (project in file("lsJs")).
   settings(commonSettings: _*).
   settings(
