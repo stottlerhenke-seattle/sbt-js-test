@@ -48,7 +48,7 @@ object SbtJsTestTasks extends SbtJsTestKeys {
 
   val jsTestTask = (streams, consoleHtml).map { (s, html) =>
     s.log.info("Running JavaScript tests...")
-
+    LogAdapterScala.logger = s.log
     runJs(html)
   }
 }
