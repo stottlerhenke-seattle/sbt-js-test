@@ -14,3 +14,4 @@ sbt plugin for running JavaScript tests on the JVM
 10. Define key for browser version
 11. Jasmine runner html page
 12. Try another JS test framework like Mocha
+13. Configurable browser version
