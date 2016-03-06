@@ -30,7 +30,7 @@ publishArtifact in (Compile, packageDoc) := false
 
 sbtVersion in Global := {
   scalaBinaryVersion.value match {
-    case "2.10" => "0.13.9"
+    case "2.10" => "0.13.11"
 //    case "2.9.2" => "0.12.4"
   }
 }
@@ -61,8 +61,18 @@ lazy val root = (project in file(".")).
 
 parallelExecution in IntegrationTest := false
 
-(test in IntegrationTest) <<= (test in IntegrationTest).dependsOn(Keys.`package` in Compile)
-(testOnly in IntegrationTest) <<= (testOnly in IntegrationTest).dependsOn(Keys.`package` in Compile)
+lazy val copyJarForTests = taskKey[File]("Copies our jar file to the project/lib directory for it:test")
+copyJarForTests := {
+  val dst = file(".") / "test-projects" / "project" / "lib" / "sbt-js-test.jar"
+  val (_, jar) = packagedArtifact.in(Compile, packageBin).value
+  IO.copyFile(jar, dst)
+
+  dst
+}
+copyJarForTests <<= copyJarForTests.dependsOn(Keys.`package` in Compile)
+
+(test in IntegrationTest) <<= (test in IntegrationTest).dependsOn(copyJarForTests)
+(testOnly in IntegrationTest) <<= (testOnly in IntegrationTest).dependsOn(copyJarForTests)
 
 buildInfoKeys := Seq[BuildInfoKey](
   version,
