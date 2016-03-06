@@ -12,8 +12,9 @@ sbt plugin for running JavaScript tests on the JVM
 8.  Better stack traces when encountering JS errors
 9.  Read any asset from webjar
 10. Define color print key
-10. Define key for browser version
-11. Configurable browser version
-12. Jasmine runner html page
-13. Try another JS test framework like Mocha
-14. Handle empty directories
+11. Define key for browser version
+12. Configurable browser version
+13. Handle empty directories
+14. Support `testOnlyJs` (consider renaming to `jsTest`/`jsTestOnly`)
+15. Jasmine runner html page
+16. Try another JS test framework like Mocha
