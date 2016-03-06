@@ -13,7 +13,6 @@ lazy val allPass = (project in file("allPass")).
   settings(
     name := "allPass",
     jsResources <<= (sourceDirectory in Compile, sourceDirectory in Test) { (main, test) => Seq(
-      main / "js",
       test / "js"
     )}
   )
