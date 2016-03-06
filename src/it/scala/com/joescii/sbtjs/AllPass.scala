@@ -1,7 +1,7 @@
 package com.joescii.sbtjs
 
 class AllPass extends SbtJsTestSpec("allPass") {
-  "The all-pass project" should {
+  "The allPass project" should {
     "successfully run 'testJs'" in {
       result = runSbt("testJs")
       result.futureValue._1 shouldEqual 0
