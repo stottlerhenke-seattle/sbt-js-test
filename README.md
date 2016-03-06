@@ -16,3 +16,4 @@ sbt plugin for running JavaScript tests on the JVM
 11. Configurable browser version
 12. Jasmine runner html page
 13. Try another JS test framework like Mocha
+14. Handle empty directories
