@@ -3,9 +3,11 @@ package com.joescii.sbtjs
 import java.io.{InputStreamReader, BufferedReader}
 import java.util.regex.Pattern
 
+import com.gargoylesoftware.htmlunit.html.HtmlPage
 import implicits._
 
 import com.gargoylesoftware.htmlunit.{BrowserVersion, WebClient}
+import net.sourceforge.htmlunit.corejs.javascript. { ScriptableObject, Function => JsFunction }
 import org.webjars.WebJarAssetLocator
 import sbt.{IO, File}
 import sbt.Keys._
@@ -84,6 +86,19 @@ object SbtJsTestTasks extends SbtJsTestKeys {
     options.setJavaScriptEnabled(true)
 
     client.getPage(html.toURI.toURL)
+    val window = client.getCurrentWindow().getTopWindow
+    val page:HtmlPage = window.getEnclosedPage().asInstanceOf[HtmlPage] // asInstanceOf because ... java...
+
+    val js = "jasmine.getEnv().execute();"
+    val toRun = "function() {\n"+js+"\n};"
+    val result = page.executeJavaScript(toRun)
+    val func:JsFunction = result.getJavaScriptResult().asInstanceOf[JsFunction]
+
+    page.executeJavaScriptFunctionIfPossible(
+      func,
+      window.getScriptObject().asInstanceOf[ScriptableObject],
+      Array.empty,
+      page.getDocumentElement())
   }
 
   val jsTestTask = (streams, consoleHtml).map { (s, html) =>
