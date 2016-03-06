@@ -25,7 +25,7 @@ package object sbtjs {
   class SbtJsTestSpec(project:String) extends WordSpec with ShouldMatchers with ScalaFutures {
     import build.BuildInfo._
 
-    implicit val defaultPatience = PatienceConfig(timeout = Span(8, Seconds), interval = Span(500, Millis))
+    implicit val defaultPatience = PatienceConfig(timeout = Span(15, Seconds), interval = Span(500, Millis))
 
     var result:Result = Future.failed(new Exception)
 

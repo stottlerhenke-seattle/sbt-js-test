@@ -7,13 +7,21 @@ class AllPass extends SbtJsTestSpec("allPass") {
       result.futureValue._1 shouldEqual 0
     }
 
+    "cause writeJsAssets to run" in {
+      result.futureValue._2(0) shouldEqual ("[info] Writing js assets...")
+    }
+
     "cause writeConsoleHtml to run" in {
-      result.futureValue._2(0) should startWith ("[info] Generating")
-      result.futureValue._2(0) should endWith   ("console.html...")
+      result.futureValue._2(1) should startWith ("[info] Generating")
+      result.futureValue._2(1) should endWith   ("console.html...")
     }
 
     "announce that the tests are running" in {
-      result.futureValue._2(1) shouldEqual "[info] Running JavaScript tests..."
+      result.futureValue._2(2) shouldEqual "[info] Running JavaScript tests..."
+    }
+
+    "announce that 1 spec ran with 0 failures" in {
+      result.futureValue._2.reverse.apply(2) shouldEqual "[info] 1 spec, 0 failures"
     }
 
     "announce that the task was successful" in {
