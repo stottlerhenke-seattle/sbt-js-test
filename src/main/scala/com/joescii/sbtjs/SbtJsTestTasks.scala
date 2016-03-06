@@ -1,6 +1,11 @@
 package com.joescii.sbtjs
 
+import java.io.{InputStreamReader, BufferedReader}
+
+import implicits._
+
 import com.gargoylesoftware.htmlunit.{BrowserVersion, WebClient}
+import org.webjars.WebJarAssetLocator
 import sbt.{IO, File}
 import sbt.Keys._
 
@@ -14,6 +19,24 @@ object SbtJsTestTasks extends SbtJsTestKeys {
 
   val lsJsTask = (streams, jsResources).map { (s, rsrcs) =>
     lsR(rsrcs).foreach(f => s.log.info(f.getCanonicalPath))
+  }
+
+  private [this] val locator = new WebJarAssetLocator()
+  private [this] def read(classpath:String):String = {
+    val url = this.getClass.getClassLoader.getResource(classpath)
+    val r = new BufferedReader(new InputStreamReader(url.openStream()))
+    Iterator.continually(r.readLine()).takeWhile(_ != null).mkString("\n")
+  }
+  private [this] def cat(webjarAsset:String) = new {
+    private [this] lazy val contents = read(locator.getFullPath(webjarAsset))
+    def > (f:File):Unit = IO.write(f, contents)
+  }
+
+  val writeWebjarsTask = (streams, jsResourceTargetDir).map { (s, target) =>
+    s.log.info("Writing webjar assets...")
+    cat("jasmine.js") > target / "jasmine.js"
+
+    Seq(target / "jasmine.js")
   }
 
   private [this] def htmlFor(js:List[File]):String = {

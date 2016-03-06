@@ -49,6 +49,18 @@ package object sbtjs {
       copy(cd / "target" / s"scala-$scalaBinaryVersion" / s"sbt-$sbtBinaryVersion" / s"sbt-js-test-$version.jar", lib / "sbt-js-test.jar")
     }
 
+    def writeDependenciesSbt():Unit = {
+      val contents =
+        s"""libraryDependencies ++= Seq(
+        |  "net.sourceforge.htmlunit"  % "htmlunit"        % "$htmlunitVersion"       % "runtime",
+        |  "org.webjars"               % "webjars-locator" % "$webjarLocatorVersion"  % "runtime",
+        |  "org.webjars.bower"         % "jasmine"         % "$jasmineVersion"        % "runtime"
+        |)""".stripMargin
+
+      echo(contents) > dir / "project" / "htmlunit.sbt"
+
+    }
+
     def runSbt(tasks:String*):Result = Future {
       val sbtScript = "sbt" + (if(windows) ".bat" else "")
       val sbtBin = Option(System.getenv("sbt_home")).map(_ / sbtScript).getOrElse(sbtScript)
@@ -74,6 +86,6 @@ package object sbtjs {
     }
 
     copyPluginJar()
-    echo(s"""libraryDependencies += "net.sourceforge.htmlunit" % "htmlunit" % "$htmlunitVersion" % "runtime"""") > dir / "project" / "htmlunit.sbt"
+    writeDependenciesSbt()
   }
 }

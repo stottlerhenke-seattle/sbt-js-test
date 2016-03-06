@@ -11,9 +11,17 @@ version := "0.1.0-SNAPSHOT"
 val htmlunitVersion = settingKey[String]("Version of htmlunit")
 htmlunitVersion := "2.19"
 
+val webjarLocatorVersion = settingKey[String]("Version of webjar locator")
+webjarLocatorVersion := "0.30"
+
+val jasmineVersion = settingKey[String]("Version of jasmine")
+jasmineVersion := "2.4.1"
+
 libraryDependencies ++= Seq(
-  "net.sourceforge.htmlunit"  %  "htmlunit"  % htmlunitVersion.value  % "compile",
-  "org.scalatest"             %% "scalatest" % "2.2.6"                % "test,it"
+  "net.sourceforge.htmlunit"  %  "htmlunit"         % htmlunitVersion.value       % "compile",
+  "org.webjars"               %  "webjars-locator"  % webjarLocatorVersion.value  % "compile",
+  "org.webjars.bower"         %  "jasmine"          % jasmineVersion.value        % "provided",
+  "org.scalatest"             %% "scalatest"        % "2.2.6"                     % "test,it"
 )
 
 // don't bother publishing javadoc
@@ -55,7 +63,16 @@ parallelExecution in IntegrationTest := false
 (test in IntegrationTest) <<= (test in IntegrationTest).dependsOn(Keys.`package` in Compile)
 (testOnly in IntegrationTest) <<= (testOnly in IntegrationTest).dependsOn(Keys.`package` in Compile)
 
-buildInfoKeys := Seq[BuildInfoKey](version, itDebug, scalaVersion, scalaBinaryVersion, sbtVersion, htmlunitVersion)
+buildInfoKeys := Seq[BuildInfoKey](
+  version,
+  itDebug,
+  scalaVersion,
+  scalaBinaryVersion,
+  sbtVersion,
+  htmlunitVersion,
+  webjarLocatorVersion,
+  jasmineVersion
+)
 
 buildInfoPackage := "com.joescii.sbtjs.build"
 
