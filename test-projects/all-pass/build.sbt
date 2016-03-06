@@ -15,6 +15,7 @@ resolvers ++= Seq(
 
 seq(sbtJsTestSettings : _*)
 
-jsResources <<= (sourceDirectory in Compile) { main =>
-  Seq(main / "js")
-}
+jsResources <<= (sourceDirectory in Compile, sourceDirectory in Test) { (main, test) => Seq(
+  main / "js",
+  test / "js"
+)}
