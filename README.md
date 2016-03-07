@@ -11,11 +11,11 @@ sbt plugin for running JavaScript tests on the JVM
 7.  ~~Fail task if jasmine fails~~
 8.  ~~Better stack traces when encountering JS errors~~
 9.  ~~Define color print key~~
-10. Define key for browser version
-11. Configurable browser version
-12. Handle empty directories
-13. Document and release
-14. Support `testOnlyJs` (consider renaming to `jsTest`/`jsTestOnly`)
+10. ~~Define key for browser version~~
+11. Handle empty directories
+12. Change `testJs` to `jsTest`
+13. Support `testOnlyJs` 
+14. Document and release
 15. Read any asset from webjar
 16. Jasmine runner html page
-17. Try another JS test framework like Mocha
+17. Integrate another JS test framework like Mocha
