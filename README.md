@@ -9,7 +9,7 @@ sbt plugin for running JavaScript tests on the JVM
 5.  ~~Create jasmine integration~~
 6.  ~~Read jasmine from webjar~~
 7.  ~~Fail task if jasmine fails~~
-8.  Better stack traces when encountering JS errors
+8.  ~~Better stack traces when encountering JS errors~~
 9.  Define color print key
 10. Define key for browser version
 11. Configurable browser version
