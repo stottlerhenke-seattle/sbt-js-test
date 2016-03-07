@@ -33,26 +33,33 @@ object SbtJsTestTasks extends SbtJsTestKeys {
     val r = new BufferedReader(new InputStreamReader(url.openStream()))
     Iterator.continually(r.readLine()).takeWhile(_ != null).mkString("\n")
   }
-  private [this] def cat(classpath:String) = new {
-    private [this] lazy val contents = read(classpath)
-    def > (f:File):Unit = IO.write(f, contents)
+  private [this] def cat(s:String) = new {
+    def > (f:File):Unit = IO.write(f, s)
   }
 
+  def sbtJsTest(target:File) = target / "sbtJsTest.js"
   def jasmine(target:File) = target / "jasmine" / "jasmine.js"
   def jasmineHtmlUnitBoot(target:File) = target / "jasmine" / "htmlunit_boot.js"
   def jasmineConsole(target:File) = target / "jasmine" / "console.js"
   def jasmineAssets(target:File):Seq[File] = Seq(
+    sbtJsTest(target),
     jasmine(target),
     jasmineConsole(target),
     jasmineHtmlUnitBoot(target)
   )
 
-  val writeJsAssetsTask = (streams, jsResourceTargetDir).map { (s, target) =>
+  val writeJsAssetsTask = (streams, jsResourceTargetDir, jsTestColor).map { (s, target, color) =>
     s.log.info("Writing js assets...")
 
-    cat(jasmineLocator.getFullPath("jasmine.js")) > jasmine(target)
-    cat(jasmineLocator.getFullPath("console.js")) > jasmineConsole(target)
-    cat("js/htmlunit_jasmine_boot.js") > jasmineHtmlUnitBoot(target)
+    val colorJs = s"""
+        |window.sbtJsTest = window.sbtJsTest || {};
+        |window.sbtJsTest.showColors = $color;
+      """.stripMargin
+
+    cat(colorJs) > sbtJsTest(target)
+    cat(read(jasmineLocator.getFullPath("jasmine.js"))) > jasmine(target)
+    cat(read(jasmineLocator.getFullPath("console.js"))) > jasmineConsole(target)
+    cat(read("js/htmlunit_jasmine_boot.js")) > jasmineHtmlUnitBoot(target)
 
     jasmineAssets(target)
   }

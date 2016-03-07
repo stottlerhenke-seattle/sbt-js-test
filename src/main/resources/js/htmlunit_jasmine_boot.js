@@ -27,7 +27,7 @@
 
   env.addReporter(getJasmineRequireObj().ConsoleReporter()({
     print: function(it){ console.log(it); },
-    showColors: true,
+    showColors: window.sbtJsTest.showColors,
     onComplete: function(allPassed) {
       window.sbtJsTest.complete = true;
       window.sbtJsTest.allPassed = allPassed;

@@ -9,6 +9,8 @@ object SbtJsTestPlugin extends Plugin with SbtJsTestKeys {
 
   val sbtJsTestSettings:Seq[Def.Setting[_]] = List(
     jsResources := Seq.empty,
+    jsTestColor := true,
+
     jsTestTargetDir <<= (target in sbt.Test) (_ / "sbt-js-test"),
     jsResourceTargetDir <<= (jsTestTargetDir) (_ / "assets"),
     consoleHtml <<= (jsTestTargetDir) (_ / "console.html"),
