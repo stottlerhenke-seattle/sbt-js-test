@@ -6,7 +6,7 @@ import java.util.regex.Pattern
 import com.gargoylesoftware.htmlunit.html.HtmlPage
 import implicits._
 
-import com.gargoylesoftware.htmlunit.{BrowserVersion, WebClient}
+import com.gargoylesoftware.htmlunit.WebClient
 import net.sourceforge.htmlunit.corejs.javascript. { ScriptableObject, Function => JsFunction }
 import org.webjars.WebJarAssetLocator
 import sbt.{TestsFailedException, IO, File}
@@ -66,7 +66,7 @@ object SbtJsTestTasks extends SbtJsTestKeys {
 
   private [this] def htmlFor(js:List[File]):String = {
     val doctype = "<!DOCTYPE html>"
-    val scripts = js map ( f => <script type="application/javascript" src={f.toURI.toASCIIString}></script> )
+    val scripts = js map ( f => <script type="application/javascript" language="javascript" src={f.toURI.toASCIIString}></script> )
     val html =
       <html>
         <head>
@@ -86,8 +86,8 @@ object SbtJsTestTasks extends SbtJsTestKeys {
     html
   }
 
-  private [this] def runJs(html:File):Boolean = {
-    val client = new WebClient(BrowserVersion.CHROME)
+  private [this] def runJs(html:File, browser: Browser):Boolean = {
+    val client = new WebClient(BrowserVersion(browser))
     val options = client.getOptions()
     options.setHomePage(WebClient.URL_ABOUT_BLANK.toString())
     options.setJavaScriptEnabled(true)
@@ -114,11 +114,13 @@ object SbtJsTestTasks extends SbtJsTestKeys {
     exeResult.getJavaScriptResult.toString == "true"
   }
 
-  val jsTestTask = (streams, consoleHtml).map { (s, html) =>
-    s.log.info("Running JavaScript tests...")
+  val jsTestTask = (streams, consoleHtml, jsTestBrowsers).map { (s, html, browsers) =>
     LogAdapter.logger = s.log
-    val success = runJs(html)
 
-    if(!success) throw new TestsFailedException()
+    browsers.foreach { browser =>
+      s.log.info(s"Running JavaScript tests on $browser...")
+      val success = runJs(html, browser)
+      if(!success) throw new TestsFailedException()
+    }
   }
 }

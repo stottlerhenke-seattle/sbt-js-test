@@ -16,8 +16,8 @@ class AllPass extends SbtJsTestSpec("allPass") {
       result.futureValue._2(1) should endWith   ("console.html...")
     }
 
-    "announce that the tests are running" in {
-      result.futureValue._2(2) shouldEqual "[info] Running JavaScript tests..."
+    "announce that the tests are running on Chrome" in {
+      result.futureValue._2(2) shouldEqual s"[info] Running JavaScript tests on $Chrome..."
     }
 
     "announce that 1 spec ran with 0 failures" in {

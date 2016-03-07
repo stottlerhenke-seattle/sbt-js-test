@@ -10,6 +10,7 @@ object SbtJsTestPlugin extends Plugin with SbtJsTestKeys {
   val sbtJsTestSettings:Seq[Def.Setting[_]] = List(
     jsResources := Seq.empty,
     jsTestColor := true,
+    jsTestBrowsers := Seq(Chrome),
 
     jsTestTargetDir <<= (target in sbt.Test) (_ / "sbt-js-test"),
     jsResourceTargetDir <<= (jsTestTargetDir) (_ / "assets"),

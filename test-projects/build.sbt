@@ -1,3 +1,5 @@
+import com.joescii.sbtjs._
+
 lazy val commonSettings = Seq(
   organization := "com.example",
   version := "0.1.0-SNAPSHOT",
@@ -45,5 +47,15 @@ lazy val angular = (project in file("angular")).
       main / "js" / "sample-app.js",
       test / "js"
     )}
+  )
+
+lazy val allBrowsers = (project in file("allBrowsers")).
+  settings(commonSettings: _*).
+  settings(
+    name := "allBrowsers",
+    jsResources <<= (sourceDirectory in Compile, sourceDirectory in Test) { (main, test) => Seq(
+      test / "js"
+    )},
+    jsTestBrowsers := Seq(Firefox38, InternetExplorer11, Chrome)
   )
 
