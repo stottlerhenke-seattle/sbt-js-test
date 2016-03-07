@@ -30,8 +30,20 @@ lazy val lsJs = (project in file("lsJs")).
   settings(commonSettings: _*).
   settings(
     name := "lsJs",
-    jsResources <<= (sourceDirectory in Compile) { main =>
-      Seq(main / "js")
-    }
+    jsResources <<= (sourceDirectory in Compile) { main => Seq(
+      main / "js"
+    )}
+  )
+
+lazy val angular = (project in file("angular")).
+  settings(commonSettings: _*).
+  settings(
+    name := "angular",
+    jsResources <<= (sourceDirectory in Compile, sourceDirectory in Test) { (main, test) => Seq(
+      main / "js" / "angular" / "angular.js",
+      main / "js" / "angular" / "angular-mocks.js",
+      main / "js" / "sample-app.js",
+      test / "js"
+    )}
   )
 
