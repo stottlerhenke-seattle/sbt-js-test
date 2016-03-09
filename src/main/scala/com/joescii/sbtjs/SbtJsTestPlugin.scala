@@ -12,16 +12,9 @@ object SbtJsTestPlugin extends Plugin with SbtJsTestKeys {
     watchSources <++= jsResources.map(identity),
     jsTestColor := true,
     jsTestBrowsers := Seq(Chrome),
-
     jsTestTargetDir <<= (target in sbt.Test) (_ / "sbt-js-test"),
-    jsResourceTargetDir <<= (jsTestTargetDir) (_ / "assets"),
-    consoleHtml <<= (jsTestTargetDir) (_ / "console.html"),
 
     jsTest <<= jsTestTask,
-    jsTest <<= jsTest dependsOn writeConsoleHtml,
-    jsTest <<= jsTest dependsOn writeJsAssets,
-    jsLs <<= jsLsTask,
-    writeConsoleHtml <<= writeConsoleHtmlTask,
-    writeJsAssets <<= writeJsAssetsTask
+    jsLs <<= jsLsTask
   )
 }
