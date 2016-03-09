@@ -69,3 +69,15 @@ lazy val nonExistentDir = (project in file("nonExistentDir")).
     )}
   )
 
+lazy val testOnly = (project in file("testOnly")).
+  settings(commonSettings: _*).
+  settings(
+    name := "testOnly",
+    jsResources <<= (sourceDirectory in Compile) { main => Seq(
+      main / "js"
+    )},
+    jsTestResources <<= (sourceDirectory in Test) { test => Seq(
+      test / "js"
+    )}
+  )
+

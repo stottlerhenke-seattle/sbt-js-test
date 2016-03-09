@@ -112,19 +112,34 @@ object SbtJsTestTasks extends SbtJsTestKeys {
     exeResult.getJavaScriptResult.toString == "true"
   }
 
-  val jsTestTask = (streams, jsResources, jsTestTargetDir, jsTestColor, jsTestBrowsers).map { (s, rsrcs, target, color, browsers) =>
-    LogAdapter.logger = s.log
+  private [this] def runTests(log:Logger, rsrcs:Seq[File], target:File, color:Boolean, browsers:Seq[Browser]) = {
+    LogAdapter.logger = log
 
     val html = target / "console.html"
     val assets = target / "assets"
 
-    writeJsAssets(s.log, assets, color)
-    writeConsoleHtml(s.log, rsrcs, html, assets)
+    writeJsAssets(log, assets, color)
+    writeConsoleHtml(log, rsrcs, html, assets)
 
     browsers.foreach { browser =>
-      s.log.info(s"Running JavaScript tests on $browser...")
+      log.info(s"Running JavaScript tests on $browser...")
       val success = runJs(html, browser)
-      if(!success) throw new TestsFailedException()
+      if (!success) throw new TestsFailedException()
     }
   }
+
+  val jsTestTask = sbt.Def.task {
+    val resources = jsResources.value ++ jsTestResources.value
+
+    runTests(streams.value.log, resources, jsTestTargetDir.value, jsTestColor.value, jsTestBrowsers.value)
+  }
+
+  val jsTestOnlyTask = sbt.Def.inputTask {
+    val tests: Seq[String] = sbt.complete.DefaultParsers.spaceDelimited("<arg>").parsed
+    val testFiles = tests.map(name => lsR(jsTestResources.value).find(_.getCanonicalPath.endsWith(name))).flatten
+    val resources = jsResources.value ++ testFiles
+
+    runTests(streams.value.log, resources, jsTestTargetDir.value, jsTestColor.value, jsTestBrowsers.value)
+  }
+
 }

@@ -10,11 +10,14 @@ object SbtJsTestPlugin extends Plugin with SbtJsTestKeys {
   val sbtJsTestSettings:Seq[Def.Setting[_]] = List(
     jsResources := Seq.empty,
     watchSources <++= jsResources.map(identity),
+    jsTestResources := Seq.empty,
+    watchSources <++= jsTestResources.map(identity),
     jsTestColor := true,
     jsTestBrowsers := Seq(Chrome),
     jsTestTargetDir <<= (target in sbt.Test) (_ / "sbt-js-test"),
 
     jsTest <<= jsTestTask,
+    jsTestOnly <<= jsTestOnlyTask,
     jsLs <<= jsLsTask
   )
 }
