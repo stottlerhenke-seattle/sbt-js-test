@@ -28,10 +28,10 @@ lazy val oneFail = (project in file("oneFail")).
     )}
   )
 
-lazy val lsJs = (project in file("lsJs")).
+lazy val jsLs = (project in file("jsLs")).
   settings(commonSettings: _*).
   settings(
-    name := "lsJs",
+    name := "jsLs",
     jsResources <<= (sourceDirectory in Compile) { main => Seq(
       main / "js"
     )}

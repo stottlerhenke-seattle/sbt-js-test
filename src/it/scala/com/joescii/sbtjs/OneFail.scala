@@ -2,8 +2,8 @@ package com.joescii.sbtjs
 
 class OneFail extends SbtJsTestSpec("oneFail") {
   "The oneFail project" should {
-    "unsuccessfully run 'testJs'" in {
-      result = runSbt("testJs")
+    "unsuccessfully run 'jsTest'" in {
+      result = runSbt("jsTest")
       result.futureValue._1 shouldNot equal (0)
     }
 

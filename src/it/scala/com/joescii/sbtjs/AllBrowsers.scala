@@ -2,8 +2,8 @@ package com.joescii.sbtjs
 
 class AllBrowsers extends SbtJsTestSpec("allBrowsers") {
   "The allBrowsers project" should {
-    "successfully run 'testJs'" in {
-      result = runSbt("testJs")
+    "successfully run 'jsTest'" in {
+      result = runSbt("jsTest")
       result.futureValue._1 shouldEqual 0
     }
 

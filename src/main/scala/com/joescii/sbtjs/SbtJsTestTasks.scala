@@ -21,7 +21,7 @@ object SbtJsTestTasks extends SbtJsTestKeys {
     else if(!f.isDirectory) List(f)
     else f.listFiles().toList.flatMap(lsR)
 
-  val lsJsTask = (streams, jsResources).map { (s, rsrcs) =>
+  val jsLsTask = (streams, jsResources).map { (s, rsrcs) =>
     lsR(rsrcs).foreach(f => s.log.info(f.getCanonicalPath))
   }
 
