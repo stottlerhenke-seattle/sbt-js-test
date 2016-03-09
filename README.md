@@ -15,7 +15,8 @@ sbt plugin for running JavaScript tests on the JVM
 11. Handle empty directories
 12. Change `testJs` to `jsTest`
 13. Support `testOnlyJs` 
-14. Document and release
-15. Read any asset from webjar
-16. Jasmine runner html page
-17. Integrate another JS test framework like Mocha
+14. Remove newlines between test progress indicators
+15. Document and release
+16. Read any asset from webjar
+17. Jasmine runner html page
+18. Integrate another JS test framework like Mocha
