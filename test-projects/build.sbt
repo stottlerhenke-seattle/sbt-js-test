@@ -59,3 +59,13 @@ lazy val allBrowsers = (project in file("allBrowsers")).
     jsTestBrowsers := Seq(Firefox38, InternetExplorer11, Chrome)
   )
 
+lazy val nonExistentDir = (project in file("nonExistentDir")).
+  settings(commonSettings: _*).
+  settings(
+    name := "nonExistentDir",
+    jsResources <<= (sourceDirectory in Compile, sourceDirectory in Test) { (main, test) => Seq(
+      main / "js",
+      test / "js"
+    )}
+  )
+

@@ -12,7 +12,7 @@ sbt plugin for running JavaScript tests on the JVM
 8.  ~~Better stack traces when encountering JS errors~~
 9.  ~~Define color print key~~
 10. ~~Define key for browser version~~
-11. Handle empty directories
+11. ~~Handle empty directories~~
 12. Change `testJs` to `jsTest`
 13. Support `testOnlyJs` 
 14. Remove newlines between test progress indicators

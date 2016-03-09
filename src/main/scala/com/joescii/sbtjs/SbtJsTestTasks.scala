@@ -17,7 +17,8 @@ object SbtJsTestTasks extends SbtJsTestKeys {
     fs.flatMap(lsR).toList
 
   private [this] def lsR(f:File):List[File] =
-    if(!f.isDirectory) List(f)
+    if(!f.exists()) List()
+    else if(!f.isDirectory) List(f)
     else f.listFiles().toList.flatMap(lsR)
 
   val lsJsTask = (streams, jsResources).map { (s, rsrcs) =>
