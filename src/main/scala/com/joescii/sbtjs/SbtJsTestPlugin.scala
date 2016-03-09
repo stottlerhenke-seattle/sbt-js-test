@@ -9,6 +9,7 @@ object SbtJsTestPlugin extends Plugin with SbtJsTestKeys {
 
   val sbtJsTestSettings:Seq[Def.Setting[_]] = List(
     jsResources := Seq.empty,
+    watchSources <++= jsResources.map(identity),
     jsTestColor := true,
     jsTestBrowsers := Seq(Chrome),
 

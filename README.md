@@ -14,7 +14,7 @@ sbt plugin for running JavaScript tests on the JVM
 10. ~~Define key for browser version~~
 11. ~~Handle empty directories~~
 12. ~~Change `testJs` to `jsTest`~~
-13. Support watching with `~jsTest`
+13. ~~Support watching with `~jsTest`~~
 14. Support `jsTestOnly` 
 15. Remove newlines between test progress indicators
 16. Document and release
