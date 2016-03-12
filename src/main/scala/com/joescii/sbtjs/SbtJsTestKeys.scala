@@ -2,6 +2,7 @@ package com.joescii.sbtjs
 
 import sbt.{InputKey, File, SettingKey, TaskKey}
 
+object SbtJsTestKeys extends SbtJsTestKeys
 trait SbtJsTestKeys {
   val jsResources = SettingKey[Seq[File]]("jsResources", "JavaScript directories and files needed for running your tests, including mocks")
   val jsTestResources = SettingKey[Seq[File]]("jsTestResources", "JavaScript directories and files containing tests to run")
