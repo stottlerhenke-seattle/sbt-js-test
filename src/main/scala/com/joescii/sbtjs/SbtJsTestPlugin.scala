@@ -11,12 +11,12 @@ object SbtJsTestPlugin extends AutoPlugin with SbtJsTestKeys {
 
   lazy val sbtJsTestSettings:Seq[Def.Setting[_]] = List(
     jsResources <<= (sourceDirectory in Compile, unmanagedResourceDirectories in Compile) { (main, rsrc) =>
-      ((main / "js") +: rsrc).flatMap(r => (r ** "*.js").get)
+      ((main / "js") +: (main / "javascript") +: rsrc).flatMap(r => (r ** "*.js").get)
     },
     watchSources <++= jsResources.map(identity),
 
     jsTestResources <<= (sourceDirectory in Test, unmanagedResourceDirectories in Test) { (test, rsrc) =>
-      ((test / "js") +: rsrc).flatMap(r => (r ** "*.js").get)
+      ((test / "js") +: (test / "javascript") +: rsrc).flatMap(r => (r ** "*.js").get)
     },
     watchSources <++= jsTestResources.map(identity),
 
