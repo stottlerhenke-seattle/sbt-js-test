@@ -7,35 +7,25 @@ lazy val commonSettings = seq(sbtJsTestSettings : _*) ++ Seq(
   resolvers ++= Seq(
     "snapshots"         at "https://oss.sonatype.org/content/repositories/snapshots",
     "releases"          at "https://oss.sonatype.org/content/repositories/releases"
-  ),
-  jsFrameworks := Seq(Jasmine2)
+  )
 )
 
 lazy val allPass = (project in file("allPass")).
   settings(commonSettings: _*).
   settings(
-    name := "allPass",
-    jsResources <<= (sourceDirectory in Compile, sourceDirectory in Test) { (main, test) => Seq(
-      test / "js"
-    )}
+    name := "allPass"
   )
   
 lazy val oneFail = (project in file("oneFail")).
   settings(commonSettings: _*).
   settings(
-    name := "oneFail",
-    jsResources <<= (sourceDirectory in Compile, sourceDirectory in Test) { (main, test) => Seq(
-      test / "js"
-    )}
+    name := "oneFail"
   )
 
 lazy val jsLs = (project in file("jsLs")).
   settings(commonSettings: _*).
   settings(
-    name := "jsLs",
-    jsResources <<= (sourceDirectory in Compile) { main => Seq(
-      main / "js"
-    )}
+    name := "jsLs"
   )
 
 lazy val angular = (project in file("angular")).
@@ -54,31 +44,18 @@ lazy val allBrowsers = (project in file("allBrowsers")).
   settings(commonSettings: _*).
   settings(
     name := "allBrowsers",
-    jsResources <<= (sourceDirectory in Compile, sourceDirectory in Test) { (main, test) => Seq(
-      test / "js"
-    )},
     jsTestBrowsers := Seq(Firefox38, InternetExplorer11, Chrome)
   )
 
 lazy val nonExistentDir = (project in file("nonExistentDir")).
   settings(commonSettings: _*).
   settings(
-    name := "nonExistentDir",
-    jsResources <<= (sourceDirectory in Compile, sourceDirectory in Test) { (main, test) => Seq(
-      main / "js",
-      test / "js"
-    )}
+    name := "nonExistentDir"
   )
 
 lazy val testOnly = (project in file("testOnly")).
   settings(commonSettings: _*).
   settings(
-    name := "testOnly",
-    jsResources <<= (sourceDirectory in Compile) { main => Seq(
-      main / "js"
-    )},
-    jsTestResources <<= (sourceDirectory in Test) { test => Seq(
-      test / "js"
-    )}
+    name := "testOnly"
   )
 
