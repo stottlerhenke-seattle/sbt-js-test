@@ -39,7 +39,7 @@ Selectively run individual test files from `jsTestResources` with `jsTestOnly`.
 
 By default, we look in `src/main/js`, `src/main/javascript`, and `src/main/resources` for `*.js` files in `jsResource`.
 Similarly for `jsTestResource`, we look in `src/test/js`, `src/test/javascript`, and `src/test/resources`.
-The files loaded in alphabetical order thanks to your OS's implementation of `java.io.File.listFiles()`.
+The files are loaded in alphabetical order thanks to your OS's implementation of `java.io.File.listFiles()`.
 You can control the files as you would with any other sbt setting of type `Seq[File]`.
 
 ```scala
