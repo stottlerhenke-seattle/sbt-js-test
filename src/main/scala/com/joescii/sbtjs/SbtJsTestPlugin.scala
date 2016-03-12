@@ -14,6 +14,7 @@ object SbtJsTestPlugin extends Plugin with SbtJsTestKeys {
     watchSources <++= jsTestResources.map(identity),
     jsTestColor := true,
     jsTestBrowsers := Seq(Chrome),
+    jsFrameworks := Seq(),
     jsTestTargetDir <<= (target in sbt.Test) (_ / "sbt-js-test"),
 
     jsTest <<= jsTestTask,

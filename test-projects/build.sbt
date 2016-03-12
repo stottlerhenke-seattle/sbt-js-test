@@ -1,14 +1,15 @@
 import com.joescii.sbtjs._
 
-lazy val commonSettings = Seq(
+lazy val commonSettings = seq(sbtJsTestSettings : _*) ++ Seq(
   organization := "com.example",
   version := "0.1.0-SNAPSHOT",
   scalaVersion := "2.11.7",
   resolvers ++= Seq(
     "snapshots"         at "https://oss.sonatype.org/content/repositories/snapshots",
     "releases"          at "https://oss.sonatype.org/content/repositories/releases"
-  )
-) ++ seq(sbtJsTestSettings : _*)
+  ),
+  jsFrameworks := Seq(Jasmine2)
+)
 
 lazy val allPass = (project in file("allPass")).
   settings(commonSettings: _*).

@@ -7,6 +7,7 @@ trait SbtJsTestKeys {
   val jsTestResources = SettingKey[Seq[File]]("jsTestResources", "JavaScript directories and files containing tests to run")
   val jsTestColor = SettingKey[Boolean]("jsTestColor", "Enables the use of color in console messages")
   val jsTestBrowsers = SettingKey[Seq[Browser]]("jsTestBrowsers", "The list of browsers to emulate for tests")
+  val jsFrameworks = SettingKey[Seq[Framework]]("jsFramekworks", "The list of JavaScript test frameworks to utilize")
   val jsTestTargetDir = SettingKey[File]("jsTestTargetDir", "Target directory for sbt-js-test to work in")
 
   val jsTest = TaskKey[Unit]("jsTest", "Run JavaScript tests")

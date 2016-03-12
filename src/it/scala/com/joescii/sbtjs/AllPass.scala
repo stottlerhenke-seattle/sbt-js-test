@@ -8,7 +8,7 @@ class AllPass extends SbtJsTestSpec("allPass") {
     }
 
     "cause writeJsAssets to run" in {
-      result.futureValue._2(0) shouldEqual ("[info] Writing js assets...")
+      result.futureValue._2(0) shouldEqual ("[info] Writing jasmine2 assets...")
     }
 
     "cause writeConsoleHtml to run" in {

@@ -43,8 +43,8 @@ object SbtJsTestTasks extends SbtJsTestKeys {
   private [this] def jasmineHtmlUnitBoot(target:File) = target / "jasmine" / "htmlunit_boot.js"
   private [this] def jasmineConsole(target:File) = target / "jasmine" / "console.js"
 
-  private [this] def writeJsAssets(log:Logger, target:File, color:Boolean):List[File] = {
-    log.info("Writing js assets...")
+  private [this] def writeJasmineAssets(log:Logger, target:File, color:Boolean):List[File] = {
+    log.info("Writing jasmine2 assets...")
 
     val colorJs = s"""
         |window.sbtJsTest = window.sbtJsTest || {};
@@ -107,12 +107,15 @@ object SbtJsTestTasks extends SbtJsTestKeys {
     exeResult.getJavaScriptResult.toString == "true"
   }
 
-  private [this] def runTests(log:Logger, rsrcs:Seq[File], target:File, color:Boolean, browsers:Seq[Browser]) = {
+  private [this] def runTests(log:Logger, rsrcs:Seq[File], target:File, color:Boolean, browsers:Seq[Browser], frameworks:Seq[Framework]) = {
     LogAdapter.logger = log
 
     val html = target / "console.html"
-    val assets = writeJsAssets(log, target / "assets", color)
-    writeConsoleHtml(log, assets ++ rsrcs, html)
+    val frameworkAssets:List[File] =
+      if(frameworks contains Jasmine2) writeJasmineAssets(log, target / "assets", color)
+      else List()
+
+    writeConsoleHtml(log, frameworkAssets ++ rsrcs, html)
 
     browsers.foreach { browser =>
       log.info(s"Running JavaScript tests on $browser...")
@@ -124,7 +127,7 @@ object SbtJsTestTasks extends SbtJsTestKeys {
   val jsTestTask = sbt.Def.task {
     val resources = jsResources.value ++ jsTestResources.value
 
-    runTests(streams.value.log, resources, jsTestTargetDir.value, jsTestColor.value, jsTestBrowsers.value)
+    runTests(streams.value.log, resources, jsTestTargetDir.value, jsTestColor.value, jsTestBrowsers.value, jsFrameworks.value)
   }
 
   val jsTestOnlyTask = sbt.Def.inputTask {
@@ -132,7 +135,7 @@ object SbtJsTestTasks extends SbtJsTestKeys {
     val testFiles = tests.map(name => lsR(jsTestResources.value).find(_.getCanonicalPath.endsWith(name))).flatten
     val resources = jsResources.value ++ testFiles
 
-    runTests(streams.value.log, resources, jsTestTargetDir.value, jsTestColor.value, jsTestBrowsers.value)
+    runTests(streams.value.log, resources, jsTestTargetDir.value, jsTestColor.value, jsTestBrowsers.value, jsFrameworks.value)
   }
 
 }
