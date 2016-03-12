@@ -59,7 +59,7 @@ jsTestResources := {
 }
 ```
 
-By default, the browser API provided mimics Chrome.  
+By default, the browser API provided mimics Chrome.
 You can configure any of Chrome, Firefox, and IE11 for your testing.
 All of your tests will be run for each browser.
 
