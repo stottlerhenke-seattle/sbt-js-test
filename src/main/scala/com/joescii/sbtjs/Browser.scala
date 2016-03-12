@@ -5,7 +5,8 @@ import HUBrowserVersion._
 
 sealed trait Browser
 
-object Browsers {
+object Browsers extends Browsers
+trait Browsers {
   case object Firefox38 extends Browser
   case object InternetExplorer8 extends Browser
   case object InternetExplorer11 extends Browser

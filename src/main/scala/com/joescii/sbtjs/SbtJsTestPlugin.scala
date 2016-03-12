@@ -6,6 +6,7 @@ import Keys._
 object SbtJsTestPlugin extends AutoPlugin with SbtJsTestKeys {
   import SbtJsTestTasks._
 
+  object autoImport extends SbtJsTestKeys with Browsers with Frameworks
   override def trigger = allRequirements
   override lazy val projectSettings = sbtJsTestSettings
 

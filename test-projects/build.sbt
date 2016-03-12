@@ -1,6 +1,3 @@
-import com.joescii.sbtjs.Browsers._
-import com.joescii.sbtjs.SbtJsTestKeys._
-
 lazy val commonSettings = Seq(
   organization := "com.example",
   version := "0.1.0-SNAPSHOT",
@@ -33,11 +30,14 @@ lazy val angular = (project in file("angular")).
   settings(commonSettings: _*).
   settings(
     name := "angular",
-    jsResources <<= (sourceDirectory in Compile, sourceDirectory in Test) { (main, test) => Seq(
-      main / "js" / "angular" / "angular.js",
-      main / "js" / "angular" / "angular-mocks.js",
-      main / "js" / "sample-app.js",
-      test / "js"
+    jsResources := {
+      val main = (sourceDirectory in Compile).value
+      val test = (sourceDirectory in Test).value
+      Seq(
+        main / "js" / "angular" / "angular.js",
+        main / "js" / "angular" / "angular-mocks.js",
+        main / "js" / "sample-app.js",
+        test / "js"
     )}
   )
 
