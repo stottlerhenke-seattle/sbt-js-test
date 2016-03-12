@@ -8,8 +8,8 @@ class NonExistentDir extends SbtJsTestSpec("nonExistentDir") {
     }
   }
 
-  "have only 1 line of output" in {
-    result.futureValue._2.length shouldEqual 1
+  "have only 3 lines of output" in {
+    result.futureValue._2.length shouldEqual 3
   }
 
   "announce that the task was successful" in {
