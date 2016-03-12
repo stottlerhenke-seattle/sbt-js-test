@@ -34,7 +34,7 @@ object SbtJsTestTasks extends SbtJsTestKeys {
     echo(Iterator.continually(r.readLine()).takeWhile(_ != null).mkString("\n"))
   }
   private [this] def echo(s:String) = new {
-    def > (f:File):Unit = IO.write(f, s)
+    def > (f:File):File = { IO.write(f, s); f }
   }
 
   private [this] val jasmineLocator = locator("jasmine")
@@ -42,14 +42,8 @@ object SbtJsTestTasks extends SbtJsTestKeys {
   private [this] def jasmine(target:File) = target / "jasmine" / "jasmine.js"
   private [this] def jasmineHtmlUnitBoot(target:File) = target / "jasmine" / "htmlunit_boot.js"
   private [this] def jasmineConsole(target:File) = target / "jasmine" / "console.js"
-  private [this] def jasmineAssets(target:File):Seq[File] = Seq(
-    sbtJsTest(target),
-    jasmine(target),
-    jasmineConsole(target),
-    jasmineHtmlUnitBoot(target)
-  )
 
-  private [this] def writeJsAssets(log:Logger, target:File, color:Boolean):Unit = {
+  private [this] def writeJsAssets(log:Logger, target:File, color:Boolean):List[File] = {
     log.info("Writing js assets...")
 
     val colorJs = s"""
@@ -57,10 +51,12 @@ object SbtJsTestTasks extends SbtJsTestKeys {
         |window.sbtJsTest.showColors = $color;
       """.stripMargin
 
-    echo(colorJs) > sbtJsTest(target)
-    cat(jasmineLocator.getFullPath("jasmine.js")) > jasmine(target)
-    cat(jasmineLocator.getFullPath("console.js")) > jasmineConsole(target)
-    cat("js/htmlunit_jasmine_boot.js") > jasmineHtmlUnitBoot(target)
+    List(
+      echo(colorJs) > sbtJsTest(target),
+      cat(jasmineLocator.getFullPath("jasmine.js")) > jasmine(target),
+      cat(jasmineLocator.getFullPath("console.js")) > jasmineConsole(target),
+      cat("js/htmlunit_jasmine_boot.js") > jasmineHtmlUnitBoot(target)
+    )
   }
 
   private [this] def htmlFor(js:List[File]):String = {
@@ -78,10 +74,9 @@ object SbtJsTestTasks extends SbtJsTestKeys {
     doctype + "\n" + html.toString
   }
 
-  private [this] def writeConsoleHtml(log:Logger, rsrcs:Seq[File], html:File, target:File):Unit = {
+  private [this] def writeConsoleHtml(log:Logger, rsrcs:Seq[File], html:File):Unit = {
     log.info(s"Generating ${html.getCanonicalPath}...")
-    val allJs = jasmineAssets(target).toList ++ lsR(rsrcs)
-    IO.write(html, htmlFor(allJs))
+    IO.write(html, htmlFor(lsR(rsrcs)))
   }
 
   private [this] def runJs(html:File, browser: Browser):Boolean = {
@@ -116,10 +111,8 @@ object SbtJsTestTasks extends SbtJsTestKeys {
     LogAdapter.logger = log
 
     val html = target / "console.html"
-    val assets = target / "assets"
-
-    writeJsAssets(log, assets, color)
-    writeConsoleHtml(log, rsrcs, html, assets)
+    val assets = writeJsAssets(log, target / "assets", color)
+    writeConsoleHtml(log, assets ++ rsrcs, html)
 
     browsers.foreach { browser =>
       log.info(s"Running JavaScript tests on $browser...")
