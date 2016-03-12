@@ -20,7 +20,7 @@ Simply add the following lines to an `sbt` file in your project's `project` dire
 
 ```scala
 libraryDependencies += "org.webjars.bower" % "jasmine" % "2.4.1" % "runtime"
-addSbtPlugin("com.joescii" % "sbt-js-test" % "0.1.0")
+addSbtPlugin("com.joescii" % "sbt-js-test" % "0.1.0-SNAPSHOT")
 ```
 
 ## Usage
