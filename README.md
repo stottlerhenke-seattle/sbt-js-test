@@ -50,7 +50,7 @@ jsResources := {
     main / "js" / "angular" / "angular.js",        // Make sure angular loads before the mocks
     main / "js" / "angular" / "angular-mocks.js",
     main / "js" / "sample-app.js",
-    test / "js" / "mocks"                         // Have mocks always available so jsTestOnly will work as expected
+    test / "js" / "mocks"                         // Have mocks always available for jsTestOnly 
 )}
 
 jsTestResources := {
