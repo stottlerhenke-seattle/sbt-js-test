@@ -16,7 +16,7 @@ sbt plugin for running JavaScript tests on the JVM
 12. ~~Change `testJs` to `jsTest`~~
 13. ~~Support watching with `~jsTest`~~
 14. ~~Support `jsTestOnly`~~ 
-15. Remove newlines between test progress indicators
+15. ~~Remove newlines between test progress indicators~~
 16. Define `SettingKey`s for jasmine configuration
 17. Refactor to match latest plugin best practices
 18. Document and release
