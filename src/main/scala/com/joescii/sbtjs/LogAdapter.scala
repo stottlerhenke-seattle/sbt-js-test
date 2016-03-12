@@ -37,10 +37,14 @@ class LogAdapter(s:String) extends Log {
   private [this] val progressIndicators = Set(".", "F", "\u001B[32m.\u001B[0m", "\u001B[31mF\u001B[0m")
   private [this] var needToPrintln = false
   override def info(m:Object):Unit = {
-    if(progressIndicators contains m.toString) {
+    if("ConsoleReporter is deprecated and will be removed in a future version." == m.toString) {
+      // ignore
+    }
+    else if(progressIndicators contains m.toString) {
       needToPrintln = true
       print(m)
-    } else {
+    }
+    else {
       if(needToPrintln) {
         println()
         needToPrintln = false
