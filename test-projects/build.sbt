@@ -1,4 +1,4 @@
-import com.joescii.sbtjs._
+import com.joescii.sbtjs.Browsers._
 import com.joescii.sbtjs.SbtJsTestKeys._
 
 lazy val commonSettings = Seq(

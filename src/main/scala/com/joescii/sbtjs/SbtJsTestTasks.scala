@@ -112,7 +112,7 @@ object SbtJsTestTasks extends SbtJsTestKeys {
 
     val html = target / "console.html"
     val frameworkAssets:List[File] =
-      if(frameworks contains Jasmine2) writeJasmineAssets(log, target / "assets", color)
+      if(frameworks contains Frameworks.Jasmine2) writeJasmineAssets(log, target / "assets", color)
       else List()
 
     writeConsoleHtml(log, frameworkAssets ++ rsrcs, html)

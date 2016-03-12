@@ -21,8 +21,8 @@ object SbtJsTestPlugin extends AutoPlugin with SbtJsTestKeys {
     watchSources <++= jsTestResources.map(identity),
 
     jsTestColor := true,
-    jsTestBrowsers := Seq(Chrome),
-    jsFrameworks := Seq(Jasmine2),
+    jsTestBrowsers := Seq(Browsers.Chrome),
+    jsFrameworks := Seq(Frameworks.Jasmine2),
     jsTestTargetDir <<= (target in Test) (_ / "sbt-js-test"),
 
     jsTest <<= jsTestTask,
