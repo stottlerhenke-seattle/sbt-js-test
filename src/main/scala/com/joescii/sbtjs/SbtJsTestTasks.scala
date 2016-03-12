@@ -28,16 +28,16 @@ object SbtJsTestTasks extends SbtJsTestKeys {
   private [this] def locator(lib:String) = new WebJarAssetLocator(
     WebJarAssetLocator.getFullPathIndex(Pattern.compile(".*"+Pattern.quote(lib)+".*"), this.getClass.getClassLoader)
   )
-  private [this] val jasmineLocator = locator("jasmine")
-  private [this] def read(classpath:String):String = {
+  private [this] def cat(classpath:String) = {
     val url = this.getClass.getClassLoader.getResource(classpath)
     val r = new BufferedReader(new InputStreamReader(url.openStream()))
-    Iterator.continually(r.readLine()).takeWhile(_ != null).mkString("\n")
+    echo(Iterator.continually(r.readLine()).takeWhile(_ != null).mkString("\n"))
   }
-  private [this] def cat(s:String) = new {
+  private [this] def echo(s:String) = new {
     def > (f:File):Unit = IO.write(f, s)
   }
 
+  private [this] val jasmineLocator = locator("jasmine")
   private [this] def sbtJsTest(target:File) = target / "sbtJsTest.js"
   private [this] def jasmine(target:File) = target / "jasmine" / "jasmine.js"
   private [this] def jasmineHtmlUnitBoot(target:File) = target / "jasmine" / "htmlunit_boot.js"
@@ -57,10 +57,10 @@ object SbtJsTestTasks extends SbtJsTestKeys {
         |window.sbtJsTest.showColors = $color;
       """.stripMargin
 
-    cat(colorJs) > sbtJsTest(target)
-    cat(read(jasmineLocator.getFullPath("jasmine.js"))) > jasmine(target)
-    cat(read(jasmineLocator.getFullPath("console.js"))) > jasmineConsole(target)
-    cat(read("js/htmlunit_jasmine_boot.js")) > jasmineHtmlUnitBoot(target)
+    echo(colorJs) > sbtJsTest(target)
+    cat(jasmineLocator.getFullPath("jasmine.js")) > jasmine(target)
+    cat(jasmineLocator.getFullPath("console.js")) > jasmineConsole(target)
+    cat("js/htmlunit_jasmine_boot.js") > jasmineHtmlUnitBoot(target)
   }
 
   private [this] def htmlFor(js:List[File]):String = {
