@@ -1,5 +1,5 @@
 # sbt-js-test
-sbt plugin for running JavaScript tests on the JVM
+sbt plugin for running JavaScript tests on the JVM with browser APIs
 
 ## Why?
 
