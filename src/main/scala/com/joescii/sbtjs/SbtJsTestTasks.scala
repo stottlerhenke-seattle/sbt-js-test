@@ -21,8 +21,15 @@ object SbtJsTestTasks extends SbtJsTestKeys {
     else if(!f.isDirectory) List(f)
     else f.listFiles().toList.flatMap(lsR)
 
-  val jsLsTask = (streams, jsResources).map { (s, rsrcs) =>
-    lsR(rsrcs).foreach(f => s.log.info(f.getCanonicalPath))
+  private [this] def doJsLs(log:Logger, main:Seq[File], test:Seq[File]):Unit = {
+    log.info("jsResources (assets loaded for every test)")
+    lsR(main).foreach(f => log.info(f.getCanonicalPath))
+    log.info("jsTestResources (assets defining tests)")
+    lsR(test).foreach(f => log.info(f.getCanonicalPath))
+  }
+
+  val jsLsTask = sbt.Def.task {
+    doJsLs(streams.value.log, jsResources.value, jsTestResources.value)
   }
 
   private [this] def locator(lib:String) = new WebJarAssetLocator(
