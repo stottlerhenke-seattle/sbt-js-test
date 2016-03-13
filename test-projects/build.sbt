@@ -32,12 +32,10 @@ lazy val angular = (project in file("angular")).
     name := "angular",
     jsResources := {
       val main = (sourceDirectory in Compile).value
-      val test = (sourceDirectory in Test).value
       Seq(
         main / "js" / "angular" / "angular.js",
         main / "js" / "angular" / "angular-mocks.js",
-        main / "js" / "sample-app.js",
-        test / "js"
+        main / "js" / "sample-app.js"
     )}
   )
 
