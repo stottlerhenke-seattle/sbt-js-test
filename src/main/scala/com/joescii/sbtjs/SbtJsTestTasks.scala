@@ -106,7 +106,7 @@ object SbtJsTestTasks extends SbtJsTestKeys {
 
     val exeResult = page.executeJavaScriptFunctionIfPossible(
       func,
-      window.getScriptObject().asInstanceOf[ScriptableObject],
+      window.getScriptableObject(),
       Array.empty,
       page.getDocumentElement()
     )
