@@ -61,3 +61,9 @@ lazy val testOnly = (project in file("testOnly")).
     name := "testOnly"
   )
 
+lazy val bigSuite = (project in file("bigSuite")).
+  settings(commonSettings: _*).
+  settings(
+    name := "bigSuite"
+  )
+
