@@ -66,8 +66,6 @@ import JsTestBrowsers._
 jsTestBrowsers := Seq(Chrome, Firefox38, InternetExplorer11)
 ```
 
-Note: if you dig around, you'll find `InternetExplorer8` and `Edge` are defined but they don't work at this time
-
 By default, test output will print to your console in color.
 If this makes a mess in your console or in your continuous integration server logs, you can turn it off.
 

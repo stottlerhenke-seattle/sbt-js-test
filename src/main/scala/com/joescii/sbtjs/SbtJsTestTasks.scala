@@ -155,10 +155,10 @@ private [sbtjs] object BrowserVersion {
 
   def apply(b:Browser):HUBrowserVersion = b match {
     case Firefox38 => FIREFOX_38
-    case InternetExplorer8 => INTERNET_EXPLORER_8
+//    case InternetExplorer8 => INTERNET_EXPLORER_8
     case InternetExplorer11 => INTERNET_EXPLORER_11
     case Chrome => CHROME
-    case Edge => EDGE
+//    case Edge => EDGE
   }
 }
 

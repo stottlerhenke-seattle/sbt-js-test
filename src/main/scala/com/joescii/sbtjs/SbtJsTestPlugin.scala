@@ -13,10 +13,10 @@ object SbtJsTestPlugin extends AutoPlugin with SbtJsTestKeys {
   object autoImport extends SbtJsTestKeys {
     object JsTestBrowsers {
       case object Firefox38 extends Browser
-      case object InternetExplorer8 extends Browser
+//      case object InternetExplorer8 extends Browser
       case object InternetExplorer11 extends Browser
       case object Chrome extends Browser
-      case object Edge extends Browser
+//      case object Edge extends Browser
     }
 
     object JsTestFrameworks {
