@@ -41,6 +41,7 @@ lazy val angular = (project in file("angular")).
     )}
   )
 
+import JsTestBrowsers._
 lazy val allBrowsers = (project in file("allBrowsers")).
   settings(commonSettings: _*).
   settings(

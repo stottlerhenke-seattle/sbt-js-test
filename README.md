@@ -9,9 +9,7 @@ Why another JavaScript test plugin?
 1. A JavaScript test environment with the browser API available
 2. Supporting multiple browser APIs
 3. While only requiring the JVM
-4. And being JavaScript test framework agnostic*
-
-* Only Jasmine 2.x is supported at the moment, though.
+4. And being JavaScript test framework agnostic (Only Jasmine 2.x is supported at the moment, though.)
 
 ## Installation
 
@@ -64,6 +62,7 @@ You can configure any of Chrome, Firefox, and IE11 for your testing.
 All of your tests will be run for each browser.
 
 ```scala
+import JsTestBrowsers._
 jsTestBrowsers := Seq(Chrome, Firefox38, InternetExplorer11)
 ```
 

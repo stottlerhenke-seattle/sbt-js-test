@@ -115,11 +115,12 @@ object SbtJsTestTasks extends SbtJsTestKeys {
   }
 
   private [this] def runTests(log:Logger, rsrcs:Seq[File], target:File, color:Boolean, browsers:Seq[Browser], frameworks:Seq[Framework]) = {
+    import SbtJsTestPlugin.autoImport.JsTestFrameworks._
     LogAdapter.logger = log
 
     val html = target / "console.html"
     val frameworkAssets:List[File] =
-      if(frameworks contains Frameworks.Jasmine2) writeJasmineAssets(log, target / "assets", color)
+      if(frameworks contains Jasmine2) writeJasmineAssets(log, target / "assets", color)
       else List()
 
     writeConsoleHtml(log, frameworkAssets ++ rsrcs, html)
@@ -146,3 +147,18 @@ object SbtJsTestTasks extends SbtJsTestKeys {
   }
 
 }
+
+private [sbtjs] object BrowserVersion {
+  import com.gargoylesoftware.htmlunit. { BrowserVersion => HUBrowserVersion }
+  import HUBrowserVersion._
+  import SbtJsTestPlugin.autoImport.JsTestBrowsers._
+
+  def apply(b:Browser):HUBrowserVersion = b match {
+    case Firefox38 => FIREFOX_38
+    case InternetExplorer8 => INTERNET_EXPLORER_8
+    case InternetExplorer11 => INTERNET_EXPLORER_11
+    case Chrome => CHROME
+    case Edge => EDGE
+  }
+}
+
