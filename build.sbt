@@ -12,8 +12,8 @@ val htmlunitVersion = settingKey[String]("Version of htmlunit")
 htmlunitVersion := "2.19"
 
 val webjarLocatorVersion = settingKey[String]("Version of webjar locator")
-webjarLocatorVersion := "0.31-SNAPSHOT"
-resolvers += "Local Maven Repository" at Path.userHome.asFile.toURI.toURL + ".m2/repository"
+webjarLocatorVersion := "0.30"
+//resolvers += "Local Maven Repository" at Path.userHome.asFile.toURI.toURL + ".m2/repository"
 
 val jasmineVersion = settingKey[String]("Version of jasmine")
 jasmineVersion := "2.4.1"
