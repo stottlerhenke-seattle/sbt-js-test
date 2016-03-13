@@ -1,6 +1,6 @@
 package com.joescii.sbtjs
 
-class LsJs extends SbtJsTestSpec("jsLs") {
+class LsJsSpec extends SbtJsTestSpec("jsLs") {
   "The jsLs project" should {
     "successfully run 'jsLs'" in {
       result = runSbt("jsLs")

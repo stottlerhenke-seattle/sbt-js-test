@@ -1,6 +1,6 @@
 package com.joescii.sbtjs
 
-class NonExistentDir extends SbtJsTestSpec("nonExistentDir") {
+class NonExistentDirSpec extends SbtJsTestSpec("nonExistentDir") {
   "The nonExistentDir project" should {
     "successfully run 'jsLs'" in {
       result = runSbt("jsLs")

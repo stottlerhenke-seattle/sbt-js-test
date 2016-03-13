@@ -91,8 +91,8 @@ jsTestColor := false
 15. ~~Remove newlines between test progress indicators~~
 16. ~~Define `SettingKey`s for jasmine configuration~~
 17. ~~Refactor to match latest plugin best practices~~
-18. Address compiler warning related to `HtmlUnit`
-19. Add `Spec` suffix to test files
+18. ~~Address compiler warning related to `HtmlUnit`~~
+19. ~~Add `Spec` suffix to test files~~
 20. ~~Document~~ 
 22. Wait on [webjars PR 10](https://github.com/webjars/webjars-locator-core/pull/10)
 21. Release

@@ -2,7 +2,7 @@ package com.joescii.sbtjs
 
 import com.joescii.sbtjs.SbtJsTestPlugin.autoImport.JsTestBrowsers.Chrome
 
-class AllPass extends SbtJsTestSpec("allPass") {
+class AllPassSpec extends SbtJsTestSpec("allPass") {
   "The allPass project" should {
     "successfully run 'jsTest'" in {
       result = runSbt("jsTest")

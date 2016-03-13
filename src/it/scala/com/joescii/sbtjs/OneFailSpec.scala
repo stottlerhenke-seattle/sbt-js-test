@@ -1,6 +1,6 @@
 package com.joescii.sbtjs
 
-class OneFail extends SbtJsTestSpec("oneFail") {
+class OneFailSpec extends SbtJsTestSpec("oneFail") {
   "The oneFail project" should {
     "unsuccessfully run 'jsTest'" in {
       result = runSbt("jsTest")

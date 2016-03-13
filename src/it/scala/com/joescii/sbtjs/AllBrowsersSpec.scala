@@ -2,7 +2,7 @@ package com.joescii.sbtjs
 
 import com.joescii.sbtjs.SbtJsTestPlugin.autoImport.JsTestBrowsers._
 
-class AllBrowsers extends SbtJsTestSpec("allBrowsers") {
+class AllBrowsersSpec extends SbtJsTestSpec("allBrowsers") {
   "The allBrowsers project" should {
     "successfully run 'jsTest'" in {
       result = runSbt("jsTest")

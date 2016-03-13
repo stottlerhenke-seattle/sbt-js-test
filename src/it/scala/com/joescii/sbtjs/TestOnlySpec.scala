@@ -1,6 +1,6 @@
 package com.joescii.sbtjs
 
-class TestOnly extends SbtJsTestSpec("testOnly") {
+class TestOnlySpec extends SbtJsTestSpec("testOnly") {
   "The testOnly project" should {
     "successfully run 'jsTestOnly pass.js'" in {
       result = runSbt("jsTestOnly pass.js")
