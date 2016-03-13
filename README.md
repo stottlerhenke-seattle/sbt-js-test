@@ -45,7 +45,7 @@ jsResources := {
   val main = (sourceDirectory in Compile).value
   val test = (sourceDirectory in Test).value
   Seq(
-    main / "js" / "angular" / "angular.js",        // Make sure angular loads before the mocks
+    main / "js" / "angular" / "angular.js",       // Make sure angular loads before the mocks
     main / "js" / "angular" / "angular-mocks.js",
     main / "js" / "sample-app.js",
     test / "js" / "mocks"                         // Have mocks always available for jsTestOnly 
@@ -73,31 +73,55 @@ If this makes a mess in your console or in your continuous integration server lo
 jsTestColor := false
 ```
 
-## TODO
-1.  ~~Define key for locating js artifacts~~
-2.  ~~Render `console.html` containing the scripts in `target`~~
-3.  ~~Run page in `HtmlUnit`~~
-4.  ~~Cleanup `HtmlUnit` logging.~~
-5.  ~~Create jasmine integration~~
-6.  ~~Read jasmine from webjar~~
-7.  ~~Fail task if jasmine fails~~
-8.  ~~Better stack traces when encountering JS errors~~
-9.  ~~Define color print key~~
-10. ~~Define key for browser version~~
-11. ~~Handle empty directories~~
-12. ~~Change `testJs` to `jsTest`~~
-13. ~~Support watching with `~jsTest`~~
-14. ~~Support `jsTestOnly`~~ 
-15. ~~Remove newlines between test progress indicators~~
-16. ~~Define `SettingKey`s for jasmine configuration~~
-17. ~~Refactor to match latest plugin best practices~~
-18. ~~Address compiler warning related to `HtmlUnit`~~
-19. ~~Add `Spec` suffix to test files~~
-20. ~~Document~~ 
-22. Wait on [webjars PR 10](https://github.com/webjars/webjars-locator-core/pull/10)
-21. Release
-22. Open issues for remaining ideas and TODOs
-23. Read any asset from webjar
-24. Jasmine runner html page
-25. Integrate another JS test framework like Mocha
-26. `jsTestOnly` tab completion
+## Contributing
+
+As with any open source project, contributions are greatly appreciated.
+If you find an issue or have a feature idea, we'd love to know about it!
+Any of the following will help this effort tremendously.
+
+1. Issue a Pull Request with the fix/enhancement and tests to validate the changes.  OR
+2. Issue a Pull Request with failing tests to show what needs to be changed OR
+3. At a minimum, [open an issue](https://github.com/joescii/sbt-js-test/issues/new) to let us know about what you've discovered.
+
+### Pull Requests
+
+Below is the recommended procedure for git:
+
+1. Fork it
+2. Create your feature branch (`git checkout -b my-new-feature`)
+3. Commit your changes (`git commit -am 'Add some feature'`)
+4. Push the branch (`git push origin my-new-feature`)
+5. Create new Pull Request
+
+Please include as much as you are able, such as tests, documentation, updates to this README, etc.
+
+### Testing
+
+Part of contributing your changes will involve testing.
+You can execute them via the `it:test` sbt task in this project.
+The [test-projects](https://github.com/joescii/sbt-js-test/tree/master/test-projects) sub-directory contains an independent sbt multi-project that the tests run against.
+At a minimum, we ask that you run the tests with your changes to ensure nothing gets inadvertently broken.
+If possible, include tests which validate your fix/enhancement in any Pull Requests.
+
+## Change Log
+
+* *0.1.0*: Initial release.
+
+## License
+
+*sbt-js-test* is licensed under [APL 2.0](http://www.apache.org/licenses/LICENSE-2.0).
+
+Copyright 2016 Joe Barnes
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+
