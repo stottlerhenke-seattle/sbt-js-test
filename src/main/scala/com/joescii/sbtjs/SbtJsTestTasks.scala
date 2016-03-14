@@ -32,9 +32,15 @@ object SbtJsTestTasks extends SbtJsTestKeys {
     doJsLs(streams.value.log, jsResources.value, jsTestResources.value)
   }
 
-  private [this] def locator(lib:String) = new WebJarAssetLocator(
-    WebJarAssetLocator.getFullPathIndex(Pattern.compile(".*"+Pattern.quote(lib)+".*"), this.getClass.getClassLoader)
-  )
+  private [this] def locator(lib:String) = {
+    val regex = Pattern.compile(".*" + Pattern.quote(lib) + ".*")
+    val classLoader = this.getClass.getClassLoader
+    val ctxClassLoader = Thread.currentThread().getContextClassLoader
+    Thread.currentThread().setContextClassLoader(classLoader)
+    val l = new WebJarAssetLocator(WebJarAssetLocator.getFullPathIndex(regex, classLoader))
+    Thread.currentThread().setContextClassLoader(ctxClassLoader)
+    l
+  }
   private [this] def cat(classpath:String) = {
     val url = this.getClass.getClassLoader.getResource(classpath)
     val r = new BufferedReader(new InputStreamReader(url.openStream()))
