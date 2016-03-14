@@ -33,11 +33,16 @@ class LogAdapter(s:String) extends Log {
   override def debug(m:Object):Unit = l.debug(m.toString)
   override def debug(m:Object, t:Throwable):Unit = l.debug(stacktrace(m, t))
 
+  private [this] val ignoredLines = Set(
+    "ConsoleReporter is deprecated and will be removed in a future version.",
+    "Finished in 0 seconds"
+  )
+
   // All of this mess allows us to print Jasmine's progress indicators on a single line
   private [this] val progressIndicators = Set(".", "F", "\u001B[32m.\u001B[0m", "\u001B[31mF\u001B[0m")
   private [this] var needToPrintln = false
   override def info(m:Object):Unit = {
-    if("ConsoleReporter is deprecated and will be removed in a future version." == m.toString) {
+    if(ignoredLines contains m.toString) {
       // ignore
     }
     else if(progressIndicators contains m.toString) {
