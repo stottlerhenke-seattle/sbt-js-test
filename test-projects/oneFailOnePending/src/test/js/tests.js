@@ -5,5 +5,9 @@ describe("my first tests", function(){
 
   it("should fail this test", function(){
     expect(false).toBe(true);
-  })
+  });
+
+  xit("should skip this test", function(){
+    expect(false).toBe(true);
+  });
 });
