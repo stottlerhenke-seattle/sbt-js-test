@@ -96,22 +96,28 @@ object SbtJsTestTasks extends SbtJsTestKeys {
     val window = client.getCurrentWindow().getTopWindow
     val page:HtmlPage = window.getEnclosedPage().asInstanceOf[HtmlPage] // asInstanceOf because ... java...
 
-    val js = """
-        |jasmine.getEnv().execute();
-        |return window.sbtJsTest.complete && window.sbtJsTest.allPassed;
-      """.stripMargin
-    val toRun = "function() {\n"+js+"\n};"
-    val result = page.executeJavaScript(toRun)
-    val func:JsFunction = result.getJavaScriptResult().asInstanceOf[JsFunction]
+    def exec(js:String):String = {
+      val toRun = "function() {\n"+js+"\n};"
+      val result = page.executeJavaScript(toRun)
+      val func:JsFunction = result.getJavaScriptResult().asInstanceOf[JsFunction]
 
-    val exeResult = page.executeJavaScriptFunctionIfPossible(
-      func,
-      window.getScriptableObject(),
-      Array.empty,
-      page.getDocumentElement()
-    )
+      val exeResult = page.executeJavaScriptFunctionIfPossible(
+        func,
+        window.getScriptableObject(),
+        Array.empty,
+        page.getDocumentElement()
+      )
 
-    exeResult.getJavaScriptResult.toString == "true"
+      exeResult.getJavaScriptResult.toString
+    }
+
+    exec("jasmine.getEnv().execute();")
+
+    while(exec("return window.sbtJsTest.complete") != "true") {
+      Thread.sleep(250)
+    }
+
+    exec("return window.sbtJsTest.allPassed") == "true"
   }
 
   private [this] def runTests(log:Logger, rsrcs:Seq[File], target:File, color:Boolean, browsers:Seq[Browser], frameworks:Seq[Framework]) = {
