@@ -14,10 +14,10 @@ lazy val allPass = (project in file("allPass")).
     name := "allPass"
   )
   
-lazy val oneFail = (project in file("oneFail")).
+lazy val oneFailOnePending = (project in file("oneFailOnePending")).
   settings(commonSettings: _*).
   settings(
-    name := "oneFail"
+    name := "oneFailOnePending"
   )
 
 lazy val jsLs = (project in file("jsLs")).

@@ -39,13 +39,18 @@ class LogAdapter(s:String) extends Log {
   )
 
   // All of this mess allows us to print Jasmine's progress indicators on a single line
-  private [this] val progressIndicators = Set(".", "F", "\u001B[32m.\u001B[0m", "\u001B[31mF\u001B[0m")
+  private [this] val progressIndicators = Set(
+    ".", "\u001B[32m.\u001B[0m",
+    "F", "\u001B[31mF\u001B[0m",
+    "*", "\u001B[33m*\u001B[0m"
+  )
   private [this] var needToPrintln = false
-  override def info(m:Object):Unit = {
-    if(ignoredLines contains m.toString) {
+  override def info(msg:Object):Unit = {
+    val m = msg.toString
+    if(ignoredLines contains m) {
       // ignore
     }
-    else if(progressIndicators contains m.toString) {
+    else if(progressIndicators contains m) {
       needToPrintln = true
       print(m)
     }
@@ -54,7 +59,7 @@ class LogAdapter(s:String) extends Log {
         println()
         needToPrintln = false
       }
-      l.info(m.toString)
+      l.info(m)
     }
   }
   override def info(m:Object, t:Throwable):Unit = l.info(stacktrace(m, t))
