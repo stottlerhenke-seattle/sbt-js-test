@@ -6,7 +6,7 @@ organization := "com.joescii"
 
 homepage := Some(url("https://github.com/joescii/sbt-js-test"))
 
-version := "0.1.0-SNAPSHOT"
+version := "0.1.0"
 
 val htmlunitVersion = settingKey[String]("Version of htmlunit")
 htmlunitVersion := "2.19"
