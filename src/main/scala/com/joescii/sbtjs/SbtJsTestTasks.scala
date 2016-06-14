@@ -119,7 +119,7 @@ object SbtJsTestTasks extends SbtJsTestKeys {
 
     val timeout: Long = System.currentTimeMillis() + asyncSupportTimeout
 
-    while(asyncSupport && System.currentTimeMillis() < asyncSupportTimeout
+    while(asyncSupport && System.currentTimeMillis() < timeout
       && exec("return window.sbtJsTest.readyForTestsToRun") != "true") {
       Thread.sleep(250)
     }
