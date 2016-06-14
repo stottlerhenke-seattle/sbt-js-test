@@ -65,3 +65,19 @@ lazy val bigSuite = (project in file("bigSuite")).
     name := "bigSuite"
   )
 
+lazy val requireJs = (project in file("requireJs")).
+  settings(commonSettings: _*).
+  settings(
+    name := "requireJs" ,
+      jsResources := {
+      val main = (sourceDirectory in Compile).value
+      Seq(
+        main / "requirejs" / "require.js"
+      )},
+
+      jsTestResources := {
+      val test = (sourceDirectory in Test).value
+      Seq(test / "js" / "test-main.js")
+    }
+  )
+
