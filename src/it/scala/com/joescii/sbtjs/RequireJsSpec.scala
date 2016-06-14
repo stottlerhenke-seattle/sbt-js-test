@@ -8,8 +8,8 @@ class RequireJsSpec extends SbtJsTestSpec("requireJs") {
       result.futureValue._1 shouldEqual 1
     }
 
-    "announce that 2 specs ran with 0 failures" in {
-      result.futureValue._2.reverse.apply(1) shouldEqual "[info] 2 specs, 0 failures"
+    "announce that 2 specs ran with 1 failures" in {
+      result.futureValue._2.reverse.apply(2) shouldEqual "[info] 2 specs, 1 failure"
     }
 
   }

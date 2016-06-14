@@ -10,8 +10,8 @@ requirejs.config({
     deps: [
         'test/namespace.test',
     ],
-    callback: function(htmlUnit){
-		jasmine.getEnv().execute();
+    callback: function(){
+		window.sbtJsTest.readyForTestsToRun = true;
     }
 });
 

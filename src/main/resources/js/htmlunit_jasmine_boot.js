@@ -24,6 +24,7 @@
 
   window.sbtJsTest = window.sbtJsTest || {};
   window.sbtJsTest.complete = false;
+  window.sbtJsTest.readyForTestsToRun = false;
 
   env.addReporter(getJasmineRequireObj().ConsoleReporter()({
     print: function(it){ console.log(it); },

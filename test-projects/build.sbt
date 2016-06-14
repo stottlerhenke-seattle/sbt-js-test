@@ -3,8 +3,8 @@ lazy val commonSettings = Seq(
   version := "0.1.0-SNAPSHOT",
   scalaVersion := "2.11.7",
   resolvers ++= Seq(
-    "snapshots"         at "https://oss.sonatype.org/content/repositories/snapshots",
-    "releases"          at "https://oss.sonatype.org/content/repositories/releases"
+    "snapshots" at "https://oss.sonatype.org/content/repositories/snapshots",
+    "releases" at "https://oss.sonatype.org/content/repositories/releases"
   )
 )
 
@@ -68,14 +68,18 @@ lazy val bigSuite = (project in file("bigSuite")).
 lazy val requireJs = (project in file("requireJs")).
   settings(commonSettings: _*).
   settings(
-    name := "requireJs" ,
-      jsResources := {
+    name := "requireJs",
+    jsAsyncSupport := true,
+    jsAsyncSupportTimeout := 3000,
+
+    jsResources := {
       val main = (sourceDirectory in Compile).value
       Seq(
         main / "requirejs" / "require.js"
-      )},
+      )
+    },
 
-      jsTestResources := {
+    jsTestResources := {
       val test = (sourceDirectory in Test).value
       Seq(test / "js" / "test-main.js")
     }
