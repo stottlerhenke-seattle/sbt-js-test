@@ -34,7 +34,7 @@ package object sbtjs {
     def runSbt(tasks:String*):Result = Future {
       val sbtScript = "sbt" + (if(windows) ".bat" else "")
       val sbtBin = Option(System.getenv("sbt_home")).map(_ / sbtScript).getOrElse(sbtScript)
-      val cmd = sbtBin :: tasks.toList.map(project + "/" + _)
+      val cmd = sbtBin :: "-Dsbt.log.format=false" :: tasks.toList.map(project + "/" + _)
       val builder = new ProcessBuilder(cmd:_*)
       builder.directory(dir)
       builder.redirectErrorStream(true)

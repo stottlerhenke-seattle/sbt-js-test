@@ -17,7 +17,8 @@ lazy val allPass = (project in file("allPass")).
 lazy val oneFailOnePending = (project in file("oneFailOnePending")).
   settings(commonSettings: _*).
   settings(
-    name := "oneFailOnePending"
+    name := "oneFailOnePending",
+    jsTestColor := false
   )
 
 lazy val jsLs = (project in file("jsLs")).
