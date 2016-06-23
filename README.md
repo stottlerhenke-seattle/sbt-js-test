@@ -73,7 +73,7 @@ If this makes a mess in your console or in your continuous integration server lo
 jsTestColor := false
 ```
 
-## Testing Asynchronously-loaded Assets
+### Asynchronously-loaded Assets
  
 When testing applications with some sort of asynchronous module definition (like requireJs), it is necessary for *sbt-js-test* to wait until all your assets are loaded.
 To enable this feature you should turn on the `jsAsyncWait` setting.
