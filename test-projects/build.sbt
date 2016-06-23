@@ -60,18 +60,11 @@ lazy val testOnly = (project in file("testOnly")).
     name := "testOnly"
   )
 
-lazy val bigSuite = (project in file("bigSuite")).
-  settings(commonSettings: _*).
-  settings(
-    name := "bigSuite"
-  )
-
 lazy val requireJs = (project in file("requireJs")).
   settings(commonSettings: _*).
   settings(
     name := "requireJs",
     jsAsyncWait := true,
-    jsAsyncWaitTimeout := 3000,
 
     jsResources := {
       val main = (sourceDirectory in Compile).value
@@ -86,3 +79,29 @@ lazy val requireJs = (project in file("requireJs")).
     }
   )
 
+lazy val requireJsTimeout = (project in file("requireJsTimeout")).
+  settings(commonSettings: _*).
+  settings(
+    name := "requireJsTimeout",
+    jsAsyncWait := true,
+    jsAsyncWaitTimeout := Some(2500),
+
+    jsResources := {
+      val main = (sourceDirectory in Compile).value
+      Seq(
+        main / "requirejs" / "require.js"
+      )
+    },
+
+    jsTestResources := {
+      val test = (sourceDirectory in Test).value
+      Seq(test / "js" / "test-main.js")
+    }
+  )
+
+
+lazy val bigSuite = (project in file("bigSuite")).
+  settings(commonSettings: _*).
+  settings(
+    name := "bigSuite"
+  )

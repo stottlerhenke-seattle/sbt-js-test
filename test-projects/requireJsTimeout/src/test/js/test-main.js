@@ -9,10 +9,7 @@ requirejs.config({
     },
     deps: [
         'test/namespace.test',
-    ],
-    callback: function(){
-		    window.sbtJsTest.readyForTestsToRun = true;
-    }
+    ]
 });
 
 requirejs.onError = function(err) {

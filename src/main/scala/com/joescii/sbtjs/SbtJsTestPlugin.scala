@@ -43,7 +43,7 @@ object SbtJsTestPlugin extends AutoPlugin with SbtJsTestKeys {
     jsFrameworks := Seq(autoImport.JsTestFrameworks.Jasmine2),
     jsTestTargetDir <<= (target in Test) (_ / "sbt-js-test"),
     jsAsyncWait := false,
-    jsAsyncWaitTimeout := 2000,
+    jsAsyncWaitTimeout := None,
 
     jsTest <<= jsTestTask,
     jsTestOnly <<= jsTestOnlyTask,

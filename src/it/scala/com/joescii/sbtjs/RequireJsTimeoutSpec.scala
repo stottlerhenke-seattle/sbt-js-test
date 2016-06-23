@@ -1,6 +1,6 @@
 package com.joescii.sbtjs
 
-class RequireJsSpec extends SbtJsTestSpec("requireJs") {
+class RequireJsTimeoutSpec extends SbtJsTestSpec("requireJsTimeout") {
   "The requireJs project" should {
 
     "successfully run async test" in {
