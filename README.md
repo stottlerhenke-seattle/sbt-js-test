@@ -76,16 +76,16 @@ jsTestColor := false
 ## Testing Asynchronously-loaded Assets
  
 When testing applications with some sort of Asynchronous module definition (like requireJs), it is recommended to wait until all your specs definition are loaded.
-To enable this feature you should turn on the `jsAsyncSupport` setting.
+To enable this feature you should turn on the `jsAsyncWait` setting.
 
 ```scala
-jsAsyncSupport := true
+jsAsyncWait := true
 ```
 
-Additionally, you can specify the `jsAsyncSupportTimeout` in milliseconds, by default in 2000, before the plugin starts running the tests.
+Additionally, you can specify the `jsAsyncWaitTimeout` in milliseconds, by default in 2000, before the plugin starts running the tests.
  
 ```scala
-jsAsyncSupportTimeout := 2500
+jsAsyncWaitTimeout := 2500
 ```
 
 And finally, you can also notify the plugin, via JavaScript through `window.sbtJsTest.readyForTestsToRun = true`, all files are loaded. There is an example in test-projects/requireJs

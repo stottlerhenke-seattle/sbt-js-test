@@ -70,8 +70,8 @@ lazy val requireJs = (project in file("requireJs")).
   settings(commonSettings: _*).
   settings(
     name := "requireJs",
-    jsAsyncSupport := true,
-    jsAsyncSupportTimeout := 3000,
+    jsAsyncWait := true,
+    jsAsyncWaitTimeout := 3000,
 
     jsResources := {
       val main = (sourceDirectory in Compile).value

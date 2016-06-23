@@ -156,7 +156,7 @@ object SbtJsTestTasks extends SbtJsTestKeys {
     val resources = jsResources.value ++ jsTestResources.value
 
     runTests(streams.value.log, resources, jsTestTargetDir.value, jsTestColor.value, jsTestBrowsers.value,
-      jsFrameworks.value, jsAsyncSupport.value, jsAsyncSupportTimeout.value)
+      jsFrameworks.value, jsAsyncWait.value, jsAsyncWaitTimeout.value)
   }
 
   val jsTestOnlyTask = sbt.Def.inputTask {
@@ -165,7 +165,7 @@ object SbtJsTestTasks extends SbtJsTestKeys {
     val resources = jsResources.value ++ testFiles
 
     runTests(streams.value.log, resources, jsTestTargetDir.value, jsTestColor.value, jsTestBrowsers.value,
-      jsFrameworks.value, jsAsyncSupport.value, jsAsyncSupportTimeout.value)
+      jsFrameworks.value, jsAsyncWait.value, jsAsyncWaitTimeout.value)
   }
 
 }
