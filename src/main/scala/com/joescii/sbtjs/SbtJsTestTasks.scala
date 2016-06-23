@@ -92,7 +92,7 @@ object SbtJsTestTasks extends SbtJsTestKeys {
     IO.write(html, htmlFor(lsR(rsrcs)))
   }
 
-  private [this] def runJs(html:File, browser: Browser, asyncSupport: Boolean, asyncSupportTimeout: Option[Long]):Boolean = {
+  private [this] def runJs(html:File, browser: Browser, asyncWait: Boolean, asyncWaitTimeout: Option[Long]):Boolean = {
     val client = new WebClient(BrowserVersion(browser))
     val options = client.getOptions()
     options.setHomePage(WebClient.URL_ABOUT_BLANK.toString())
@@ -117,9 +117,9 @@ object SbtJsTestTasks extends SbtJsTestKeys {
       exeResult.getJavaScriptResult.toString
     }
 
-    val timeout:Option[Long] = asyncSupportTimeout.map(System.currentTimeMillis() + _)
+    val timeout:Option[Long] = asyncWaitTimeout.map(System.currentTimeMillis() + _)
 
-    while(asyncSupport
+    while(asyncWait
       && timeout.map(System.currentTimeMillis() < _).getOrElse(true)
       && exec("return window.sbtJsTest.readyForTestsToRun") != "true") {
       Thread.sleep(250)
@@ -135,7 +135,7 @@ object SbtJsTestTasks extends SbtJsTestKeys {
   }
 
   private [this] def runTests(log:Logger, rsrcs:Seq[File], target:File, color:Boolean, browsers:Seq[Browser],
-                              frameworks:Seq[Framework], asyncSupport: Boolean, asyncSupportTimeout: Option[Long]) = {
+                              frameworks:Seq[Framework], asyncWait: Boolean, asyncWaitTimeout: Option[Long]) = {
     import SbtJsTestPlugin.autoImport.JsTestFrameworks._
     LogAdapter.logger = log
 
@@ -148,7 +148,7 @@ object SbtJsTestTasks extends SbtJsTestKeys {
 
     browsers.foreach { browser =>
       log.info(s"Running JavaScript tests on $browser...")
-      val success = runJs(html, browser, asyncSupport, asyncSupportTimeout)
+      val success = runJs(html, browser, asyncWait, asyncWaitTimeout)
       if (!success) throw new TestsFailedException()
     }
   }
