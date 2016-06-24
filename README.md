@@ -18,7 +18,7 @@ Simply add the following lines to an `sbt` file in your project's `project` dire
 
 ```scala
 libraryDependencies += "org.webjars.bower" % "jasmine" % "2.4.1" % "runtime"
-addSbtPlugin("com.joescii" % "sbt-js-test" % "0.1.0")
+addSbtPlugin("com.joescii" % "sbt-js-test" % "0.2.0")
 ```
 
 ## Usage
@@ -137,7 +137,7 @@ If possible, include tests which validate your fix/enhancement in any Pull Reque
 
 ## Change Log
 
-* *0.2.0*: New feature: wait asynchronously-loaded assets before running tests.
+* *0.2.0*: Added support for asynchronously-loaded javascript assets.
 * *0.1.0*: Initial release.
 
 ## License
