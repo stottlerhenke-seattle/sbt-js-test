@@ -92,7 +92,7 @@ object SbtJsTestTasks extends SbtJsTestKeys {
     IO.write(html, htmlFor(lsR(rsrcs)))
   }
 
-  private [this] def runJs(html:File, browser: Browser):Boolean = {
+  private [this] def runJs(html:File, browser: Browser, asyncWait: Boolean, asyncWaitTimeout: Option[Long]):Boolean = {
     val client = new WebClient(BrowserVersion(browser))
     val options = client.getOptions()
     options.setHomePage(WebClient.URL_ABOUT_BLANK.toString())
@@ -117,6 +117,14 @@ object SbtJsTestTasks extends SbtJsTestKeys {
       exeResult.getJavaScriptResult.toString
     }
 
+    val timeout:Option[Long] = asyncWaitTimeout.map(System.currentTimeMillis() + _)
+
+    while(asyncWait
+      && timeout.map(System.currentTimeMillis() < _).getOrElse(true)
+      && exec("return window.sbtJsTest.readyForTestsToRun") != "true") {
+      Thread.sleep(250)
+    }
+
     exec("jasmine.getEnv().execute();")
 
     while(exec("return window.sbtJsTest.complete") != "true") {
@@ -126,7 +134,8 @@ object SbtJsTestTasks extends SbtJsTestKeys {
     exec("return window.sbtJsTest.allPassed") == "true"
   }
 
-  private [this] def runTests(log:Logger, rsrcs:Seq[File], target:File, color:Boolean, browsers:Seq[Browser], frameworks:Seq[Framework]) = {
+  private [this] def runTests(log:Logger, rsrcs:Seq[File], target:File, color:Boolean, browsers:Seq[Browser],
+                              frameworks:Seq[Framework], asyncWait: Boolean, asyncWaitTimeout: Option[Long]) = {
     import SbtJsTestPlugin.autoImport.JsTestFrameworks._
     LogAdapter.logger = log
 
@@ -139,7 +148,7 @@ object SbtJsTestTasks extends SbtJsTestKeys {
 
     browsers.foreach { browser =>
       log.info(s"Running JavaScript tests on $browser...")
-      val success = runJs(html, browser)
+      val success = runJs(html, browser, asyncWait, asyncWaitTimeout)
       if (!success) throw new TestsFailedException()
     }
   }
@@ -147,7 +156,8 @@ object SbtJsTestTasks extends SbtJsTestKeys {
   val jsTestTask = sbt.Def.task {
     val resources = jsResources.value ++ jsTestResources.value
 
-    runTests(streams.value.log, resources, jsTestTargetDir.value, jsTestColor.value, jsTestBrowsers.value, jsFrameworks.value)
+    runTests(streams.value.log, resources, jsTestTargetDir.value, jsTestColor.value, jsTestBrowsers.value,
+      jsFrameworks.value, jsAsyncWait.value, jsAsyncWaitTimeout.value)
   }
 
   val jsTestOnlyTask = sbt.Def.inputTask {
@@ -155,7 +165,8 @@ object SbtJsTestTasks extends SbtJsTestKeys {
     val testFiles = tests.map(name => lsR(jsTestResources.value).find(_.getCanonicalPath.endsWith(name))).flatten
     val resources = jsResources.value ++ testFiles
 
-    runTests(streams.value.log, resources, jsTestTargetDir.value, jsTestColor.value, jsTestBrowsers.value, jsFrameworks.value)
+    runTests(streams.value.log, resources, jsTestTargetDir.value, jsTestColor.value, jsTestBrowsers.value,
+      jsFrameworks.value, jsAsyncWait.value, jsAsyncWaitTimeout.value)
   }
 
 }

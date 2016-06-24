@@ -25,7 +25,7 @@ package object sbtjs {
   class SbtJsTestSpec(project:String) extends WordSpec with ShouldMatchers with ScalaFutures {
     import build.BuildInfo._
 
-    implicit val defaultPatience = PatienceConfig(timeout = Span(20, Seconds), interval = Span(500, Millis))
+    implicit val defaultPatience = PatienceConfig(timeout = Span(45, Seconds), interval = Span(500, Millis))
 
     var result:Result = Future.failed(new Exception)
 
@@ -34,7 +34,7 @@ package object sbtjs {
     def runSbt(tasks:String*):Result = Future {
       val sbtScript = "sbt" + (if(windows) ".bat" else "")
       val sbtBin = Option(System.getenv("sbt_home")).map(_ / sbtScript).getOrElse(sbtScript)
-      val cmd = sbtBin :: tasks.toList.map(project + "/" + _)
+      val cmd = sbtBin :: "-Dsbt.log.format=false" :: tasks.toList.map(project + "/" + _)
       val builder = new ProcessBuilder(cmd:_*)
       builder.directory(dir)
       builder.redirectErrorStream(true)

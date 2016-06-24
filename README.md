@@ -73,6 +73,38 @@ If this makes a mess in your console or in your continuous integration server lo
 jsTestColor := false
 ```
 
+### Asynchronously-loaded Assets
+ 
+When testing applications with some sort of asynchronous module definition (like requireJs), it is necessary for *sbt-js-test* to wait until all your assets are loaded.
+To enable this feature you should turn on the `jsAsyncWait` setting.
+
+```scala
+jsAsyncWait := true
+```
+
+This will cause *sbt-js-test* to wait indefinitely before running your test specs.
+The best approach is to notify the plugin when your assets have loaded by setting `window.sbtJsTest.readyForTestsToRun` to `true` in your javascript.
+For example, you can configure requireJs to notify *sbt-js-test* as shown below.
+
+```javascript
+requirejs.config({
+  deps: [
+    'test/namespace.test',
+  ],
+  callback: function(){
+    window.sbtJsTest.readyForTestsToRun = true;
+  }
+});
+```
+
+Alternatively, you can specify `jsAsyncWaitTimeout` in milliseconds if you are unable to signal the plugin via `window.sbtJsTest.readyForTestsToRun`.
+ 
+```scala
+jsAsyncWaitTimeout := Some(2500)
+```
+
+See [`test-projects/requireJs`](test-projects/requireJs) and [`test-projects/requireJsTimeout`](test-projects/requireJsTimeout) for a full-working example of both approaches.
+
 ## Contributing
 
 As with any open source project, contributions are greatly appreciated.
@@ -105,6 +137,7 @@ If possible, include tests which validate your fix/enhancement in any Pull Reque
 
 ## Change Log
 
+* *0.2.0*: New feature: wait asynchronously-loaded assets before running tests.
 * *0.1.0*: Initial release.
 
 ## License

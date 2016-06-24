@@ -3,8 +3,8 @@ lazy val commonSettings = Seq(
   version := "0.1.0-SNAPSHOT",
   scalaVersion := "2.11.7",
   resolvers ++= Seq(
-    "snapshots"         at "https://oss.sonatype.org/content/repositories/snapshots",
-    "releases"          at "https://oss.sonatype.org/content/repositories/releases"
+    "snapshots" at "https://oss.sonatype.org/content/repositories/snapshots",
+    "releases" at "https://oss.sonatype.org/content/repositories/releases"
   )
 )
 
@@ -17,7 +17,8 @@ lazy val allPass = (project in file("allPass")).
 lazy val oneFailOnePending = (project in file("oneFailOnePending")).
   settings(commonSettings: _*).
   settings(
-    name := "oneFailOnePending"
+    name := "oneFailOnePending",
+    jsTestColor := false
   )
 
 lazy val jsLs = (project in file("jsLs")).
@@ -59,9 +60,48 @@ lazy val testOnly = (project in file("testOnly")).
     name := "testOnly"
   )
 
+lazy val requireJs = (project in file("requireJs")).
+  settings(commonSettings: _*).
+  settings(
+    name := "requireJs",
+    jsAsyncWait := true,
+
+    jsResources := {
+      val main = (sourceDirectory in Compile).value
+      Seq(
+        main / "requirejs" / "require.js"
+      )
+    },
+
+    jsTestResources := {
+      val test = (sourceDirectory in Test).value
+      Seq(test / "js" / "test-main.js")
+    }
+  )
+
+lazy val requireJsTimeout = (project in file("requireJsTimeout")).
+  settings(commonSettings: _*).
+  settings(
+    name := "requireJsTimeout",
+    jsAsyncWait := true,
+    jsAsyncWaitTimeout := Some(2500),
+
+    jsResources := {
+      val main = (sourceDirectory in Compile).value
+      Seq(
+        main / "requirejs" / "require.js"
+      )
+    },
+
+    jsTestResources := {
+      val test = (sourceDirectory in Test).value
+      Seq(test / "js" / "test-main.js")
+    }
+  )
+
+
 lazy val bigSuite = (project in file("bigSuite")).
   settings(commonSettings: _*).
   settings(
     name := "bigSuite"
   )
-
